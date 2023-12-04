@@ -1,0 +1,4391 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>KayeILSQL-04-Integrity Constraints</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="KayeILSQL-04-Oracle Integrity Constraints">
+    <meta name="keywords" content="Kaye is Learning SQL, #kayeIsLearningSQL, 
+    Oracle Integrity Constraints, #oracleIntegrityConstraints, Primary Key, #primaryKey,
+   Foreign Key,#foreignKey, Check Constraint, #checkConstraint,
+   #user_constraints, #user_cons_columns
+   ">
+    <meta name="author" content="Dicle Ertan Ülger">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        h1 {
+            color: rgb(8, 51, 143);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            page-break-before: always;
+        }
+
+        h2 {
+            color: rgb(125, 186, 0);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            page-break-before: always;
+        }
+
+        h3 {
+            color: rgb(0, 184, 224);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        h4 {
+            color: rgb(222, 59, 33);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: large;
+        }
+
+
+        h5 {
+            color: rgb(0, 196, 181);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: large;
+        }
+
+        h6 {
+            color: rgb(144, 36, 143);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: large;
+        }
+
+        p {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .note-emoji-300 {
+            font-size: 300%;
+
+        }
+
+
+        .note-bold {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+        }
+
+
+        .note-bold-italic {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .note-bold-navy {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            color: rgb(8, 51, 143);
+        }
+
+        .note-bold-navy-italic {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            color: rgb(8, 51, 143);
+            font-style: italic;
+        }
+
+        .note-bold-navy-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            color: rgb(8, 51, 143);
+            font-size: larger;
+        }
+
+        .note-bold-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-bold-red {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+        }
+
+        .note-bold-red-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-bold-red-italic {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .note-10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            background-color: rgb(247, 181, 18);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-20 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+        }
+
+        .note-25 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(222, 59, 33);
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        .note-30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(247, 181, 18);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-40 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(0, 184, 224);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 25%);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-55 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 25%);
+            padding: 30px;
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-60 {
+            background-color: rgb(247, 181, 18);
+            color: rgb(8, 51, 143);
+            font-size: larger;
+            font-weight: bold;
+            padding: 30px;
+        }
+
+        .note-70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 25%);
+            padding: 20px;
+        }
+
+        .note-75 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 25%);
+            color: rgb(222, 59, 33);
+            padding: 30px;
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-80 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(247, 181, 18);
+            color: rgb(222, 59, 33);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+
+        .note-85 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(247, 181, 18);
+            color: rgb(222, 59, 33);
+            padding: 30px;
+            font-weight: bold;
+            font-size: larger;
+        }
+
+        .note-jci-green {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(125, 186, 0);
+            padding: 30px;
+        }
+
+        .note-jci-green-3 {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: larger;
+            font-weight: bold;
+            background-color: rgb(125, 186, 0);
+            padding: 30px;
+        }
+
+
+        .note-90 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 25%);
+            padding: 30px;
+
+        }
+
+        .note-cyan-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 30%);
+            padding: 30px;
+        }
+
+        .note-95 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 10%);
+            padding: 30px;
+        }
+
+        .note-95-a15 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 15%);
+            padding: 30px;
+        }
+
+        .note-95-a20 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 20%);
+            padding: 30px;
+        }
+
+        .note-95-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 30%);
+            padding: 30px;
+        }
+
+        .note-95-a30-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 30%);
+            padding: 30px;
+            font-size: larger;
+        }
+
+        .note-jci-cyan {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(0, 184, 224);
+            padding: 30px;
+        }
+
+        .note-jci-cyan-10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 10%);
+            padding: 30px;
+        }
+
+        .note-jci-cyan-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(0, 184, 224);
+            padding: 30px;
+            font-size: larger;
+        }
+
+        .note-96 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 184, 224, 10%);
+            padding: 30px;
+            font-size: larger;
+        }
+
+        .note-97 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 10%);
+            padding: 30px;
+
+        }
+
+        .note-97-a15 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 15%);
+            padding: 30px;
+
+        }
+
+        .note-97-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 30%);
+            padding: 30px;
+        }
+
+        .note-98 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(125, 186, 0, 10%);
+            padding: 30px;
+            font-size: larger;
+
+        }
+
+        .note-jcigreen-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(125, 186, 0);
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .note-110 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(199, 15, 175);
+            font-weight: bold;
+        }
+
+        .note-115 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 25%);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+        .note-117 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 10%);
+            padding: 30px;
+        }
+
+        .note-117-a05 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 5%);
+            padding: 30px;
+        }
+
+
+        .note-117-a10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 10%);
+            padding: 30px;
+        }
+
+        .note-117-a15 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 15%);
+            padding: 30px;
+        }
+
+        .note-117-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 30%);
+            padding: 30px;
+        }
+
+        .note-117-a50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 50%);
+            padding: 30px;
+        }
+
+        .note-117-a70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(199, 15, 175, 70%);
+            padding: 30px;
+        }
+
+        .note-117-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(199, 15, 175);
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .note-200 {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .note-210 {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+
+
+        .note-300 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(102, 99, 102);
+            color: rgb(245, 245, 245);
+            padding: 30px;
+            font-weight: bold;
+        }
+
+
+        .note-charcoal-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: rgb(102, 99, 102);
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .note-charcoal {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(102, 99, 102);
+            padding: 30px;
+        }
+
+        .note-charcoal-a70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(102, 99, 102, 70%);
+            padding: 30px;
+        }
+
+        .note-charcoal-a50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(102, 99, 102, 50%);
+            padding: 30px;
+        }
+
+        .note-charcoal-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(102, 99, 102, 30%);
+            padding: 30px;
+        }
+
+        .note-charcoal-a30-large {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(102, 99, 102, 30%);
+            padding: 30px;
+            font-size: larger;
+            font-weight: bold;
+        }
+
+        .note-solaryellow-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(247, 181, 18, 30%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(196, 219, 13);
+            font-size: larger;
+            font-weight: bold;
+            padding: 30px;
+        }
+
+        .note-brightgreen {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgb(196, 219, 13);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 70%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 50%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 30%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 10%);
+            padding: 30px;
+        }
+
+        .note-brightgreen-a05 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(196, 219, 13, 5%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-larger {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181);
+            font-size: larger;
+            font-weight: bold;
+            padding: 30px;
+        }
+
+        .note-oceangreen {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a05 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 5%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a10 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 10%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a30 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 30%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a50 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 50%);
+            padding: 30px;
+        }
+
+        .note-oceangreen-a70 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            background-color: rgba(0, 196, 181, 70%);
+            padding: 30px;
+        }
+
+
+        .note-radient-red-larger {
+            background-color: rgb(168, 3, 79);
+            color: rgb(245, 245, 245);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: larger;
+            font-weight: bold;
+            padding: 30px;
+        }
+
+        .note-radient-red {
+            background-color: rgb(168, 3, 79);
+            color: rgb(245, 245, 245);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a70 {
+            background-color: rgba(168, 3, 79, 70%);
+            color: rgb(245, 245, 245);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a50 {
+            background-color: rgba(168, 3, 79, 50%);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a30 {
+            background-color: rgba(168, 3, 79, 30%);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a10 {
+            background-color: rgba(168, 3, 79, 10%);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        .note-radient-red-a05 {
+            background-color: rgba(168, 3, 79, 5%);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 30px;
+        }
+
+        ul {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            line-height: 30px;
+        }
+
+        ol {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            line-height: 30px;
+        }
+
+        dl {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            line-height: 30px;
+        }
+
+        dt {
+            font-size: larger;
+        }
+
+        #t20 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+
+        }
+
+        table {
+            width: 100%;
+            text-align: left;
+            font-size: small;
+        }
+
+        table,
+        th,
+        td {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+
+        div {
+            overflow-x: auto;
+
+        }
+
+        figcaption {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        p.lh2 {
+            line-height: 2;
+        }
+
+        ul.lh3 {
+            line-height: 3;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <h1>KayeILSQL-04-Oracle Integrity Constraints</h1>
+    <p></p>
+    <!--    <img src="deu.png" style="max-width:100% ;" height="auto" alt="just me"> -->
+
+    <p></p>
+    <div class="note-55">
+        <p style="font-size: larger;">Contents</p>
+    </div>
+
+    <div class="note-95">
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#based_on"> Based On </a>
+        </p>
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#h_references"> References </a>
+        </p>
+        <!-- -->
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#dd_review">Database Design Process</a>
+        </p>
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#ctr_def">Definition of Integrity Constraints </a>
+        </p>
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#ctr_types">Types of Integrity Constraints </a>
+        </p>
+
+        <ul>
+            <li><a href="#ctr_types_nn">NOT NULL Constraint </a> </li>
+            <li><a href="#ctr_types_unq">UNIQUE Constraint </a> </li>
+            <li><a href="#ctr_types_pk">PRIMARY KEY Constraint </a> </li>
+            <li><a href="#ctr_types_fk">FOREIGN KEY Constraint </a> </li>
+            <li><a href="#ctr_types_check">CHECK Constraint </a> </li>
+            <li><a href="#ctr_types_ref">REF Column Constraints </a> </li>
+        </ul>
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#partial_er">A Section of the ER Model of the European Parliament</a>
+        </p>
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#tab_inst_chart">Table Instance Chart</a>
+        </p>
+        <ul>
+            <li><a href="#tab_inst_chart_pk">Table Instance Chart&#8212;PRIMARY KEY</a></li>
+            <li><a href="#tab_inst_chart_cpk">Table Instance Chart&#8212;COMPOSITE PRIMARY KEY</a></li>
+            <li><a href="#tab_inst_chart_apk">Table Instance Chart&#8212;ALTERNATE PRIMARY KEY</a></li>
+            <li><a href="#tab_inst_chart_fk">Table Instance Chart&#8212;FOREIGN KEY</a></li>
+        </ul>
+
+
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#sql_cr_table">SQL &#8212; CREATE TABLE Statement</a>
+        </p>
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#cons_in_out_line">INLINE and OUT-OF-LINE Constraint Specifications</a>
+        </p>
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#sql_nn">SQL &#8212; NOT NULL CONSTRAINT</a>
+        </p>
+        <ul>
+            <li><a href="#sql_nn_cl">SQL &#8212; NOT NULL Constraint Clause</a></li>
+            <li><a href="#sql_nn_dd">SQL &#8212; NOT NULL Constraint in Data Dictionary</a></li>
+        </ul>
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#sql_unq">SQL &#8212; UNIQUE CONSTRAINT</a>
+        </p>
+        <ul>
+            <li><a href="#sql_unq_single">SQL &#8212; UNIQUE Constraint on a Single Column</a> </li>
+            <li><a href="#sql_unq_single_dd">SQL &#8212; UNIQUE Constraint in Data Dictionary (Single Column)</a> </li>
+            <li><a href="#sql_unq_multi">SQL &#8212; UNIQUE Constraint on Multiple Columns</a> </li>
+            <li><a href="#sql_unq_multi_dd">SQL &#8212; UNIQUE Constraint in Data Dictionary (Multiple Columns)</a>
+            </li>
+        </ul>
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#sql_pk">SQL &#8212; PRIMARY KEY CONSTRAINT</a>
+        </p>
+        <ul>
+            <li><a href="#sql_pk_cl">SQL &#8212; PRIMARY KEY Constraint on a Single Column </a> </li>
+            <li><a href="#sql_pk_dd">SQL &#8212; PRIMARY KEY Constraint in DD (Single Column) </a> </li>
+            <li><a href="#sql_pk_cl_multi">SQL &#8212; PRIMARY KEY Constraint on Multiple Columns </a> </li>
+            <li><a href="#sql_pk_dd_multi">SQL &#8212; PRIMARY KEY Constraint in DD (Multiple Columns) </a> </li>
+
+        </ul>
+
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#sql_fk">SQL &#8212; FOREIGN KEY CONSTRAINT</a>
+        </p>
+        <ul>
+            <li><a href="#sql_fk_about">FOREIGN KEY Constraint &#8212; About</a></li>
+            <li><a href="#sql_fk_ref">FOREIGN KEY Constraint &#8212; REFERENCES Clause</a></li>
+            <ul>
+                <li><a href="#sql_fk_ref_inline">REFERENCES Clause &#8212; INLINE Specification</a> </li>
+                <li><a href="#sql_fk_ref_out">REFERENCES Clause &#8212; OUT-OF-LINE Specification</a> </li>
+            </ul>
+            <li><a href="#sql_fk_del">FOREIGN KEY Constraint &#8212; ON DELETE Clause</a></li>
+            <ul>
+                <li><a href="#sql_fk_del_default">ON DELETE Clause &#8212; Default Behaviour</a></li>
+                <li><a href="#sql_fk_del_casc">ON DELETE Clause &#8212; CASCADE</a></li>
+                <li><a href="#sql_fk_del_null">ON DELETE Clause &#8212; SET NULL</a></li>
+            </ul>
+            <li><a href="#sql_fk_dd_1">FOREIGN KEY Constraint &#8212; Data Dictionary Query 1</a></li>
+            <li><a href="#sql_fk_dd_2">FOREIGN KEY Constraint &#8212; Data Dictionary Query 2</a></li>
+        </ul>
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#sql_check">SQL &#8212; CHECK CONSTRAINT</a>
+        </p>
+        <ul>
+            <li><a href="#sql_check_about">CHECK Constraint &#8212; About</a> </li>
+            <li><a href="#sql_check_ex_1">SQL &#8212; CHECK Constraint Example 1</a> </li>
+            <li><a href="#sql_check_ex_2">SQL &#8212; CHECK Constraint Example 2</a> </li>
+            <li><a href="#sql_check_dd">SQL &#8212; CHECK Constraint in Data Dictionary</a> </li>
+            <li><a href="#sql_check_design">CHECK Constraint &#8212; Design Considerations</a> </li>
+
+        </ul>
+
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#ctr_more">For More on Integrity Constraints</a>
+        </p>
+        <!-- -->
+        <p style="font-size: larger; font-weight: bold;">
+            <a href="#references"> References </a>
+        </p>
+    </div>
+    <p></p>
+
+
+
+
+    <h2 id="based_on">Based On</h2>
+    <span class="note-bold"> </span>
+    <span class="note-bold-navy"> </span>
+    <span class="note-bold-italic"> </span>
+    <span class="note-bold-navy-italic"> </span>
+    <p> This text on SQL is based on the
+        <span class="note-bold-navy">Oracle Database </span> using
+        the
+        <span class="note-bold-navy">EP-European Parliament </span>
+        as Data Model.
+    </p>
+    <p></p>
+    <p></p>
+    <p></p>
+
+    <div class="note-95">
+        <span class="note-bold"> </span>
+        <span class="note-bold-navy"> </span>
+        <span class="note-bold-italic"> </span>
+        <span class="note-bold-navy-italic"> </span>
+        <p>The
+            <span class="note-bold-navy">European Parliament (EP)</span>
+            is the parliamentary institution of the
+            <span class="note-bold">European Union (EU)</span>.
+        </p>
+        <p>
+            The European Parliament is elected by the citizens of the European Union to represent their interests.</p>
+        <p> Its origins go back to the 1950s and the founding Treaties.
+            Since 1979 its members have been directly elected by the citizens of the EU.</p>
+
+    </div>
+    <p></p>
+    <div class="note-97">
+        <p>Elections are held every five years, and every EU citizen is entitled to vote, and to stand as a candidate,
+            wherever they live in the EU.
+            Parliament thus expresses the democratic will of the
+            European Union's nearly 500 million citizens and
+            it represents their interests in discussions with the other EU institutions. </p>
+
+    </div>
+
+    <p></p>
+    <div class="note-117">
+        <span class="note-bold"> </span>
+        <span class="note-bold-navy"> </span>
+        <span class="note-bold-italic"> </span>
+        <span class="note-bold-navy-italic"> </span>
+
+        <p> The
+            European Parliament model and data used in
+            this SQL text,
+            are based on the elections which were held in June 2004.
+            The European Parliament of 2004 elections had 785 members from all 27 EU countries.</p>
+    </div>
+
+    <p></p>
+    <p></p>
+    <div class="note-95">
+        <p>The sources for the data, which are all freely obtainable from the European Union website,
+            and from several leaflets of the EU institutions,
+            are listed in the
+            <a href="#references"> References</a>
+            section.
+        </p>
+
+        <span class="note-bold"> </span>
+        <span class="note-bold-navy"> </span>
+        <span class="note-bold-italic"> </span>
+        <span class="note-bold-navy-italic"> </span>
+        <p>These sources are used to create
+            <span class="note-bold-navy-italic">the fictitious Business Narrative</span>
+
+            of the
+            <span class="note-bold">"Data Modelling and Normalization"</span>
+            Chapter.
+        </p>
+        <p>We called this
+            <span class="note-bold-navy">Business Narrative</span>;
+            <span class="note-bold">"the Story of the European Union"</span>
+            which explains about the EU and EP,
+            for purposes of Data Modeling.
+        </p>
+
+  <!--     <p>You can access our
+            <span class="note-bold-navy">Business Narrative</span>,
+            <span class="note-bold">the Story of the European Union</span>
+            <a href="kayeILSQL-StoryEuropeanUnion.htm" target="_blank">here</a>.
+        </p>
+
+-->  
+<p>
+    <span class="note-bold">The Story of the European Union</span> is the last Chapter
+of <b> Kaye is Learning SQL</b>.
+</p>
+  
+
+    </div>
+
+    <div class="note-117">
+
+        <figure>
+            <figcaption style="font-weight: bold;">
+                Beautiful Lagerstroemia / Crape Myrtle Tree
+            </figcaption>
+            <img src="../images/c4/crapeMyrtle-22.jpg" style="max-width: 100%; height: auto;" alt="Beautiful Crape Myrtle Tree">
+
+        </figure>
+    </div>
+
+    <p></p>
+
+    <h2 id="h_references">References</h2>
+    <p> The knowledge in the following sections are based
+        on my personal work experience, as well as on
+        several Oracle Documentation,
+        which are freely downloadable from Oracle websites.
+    </p>
+    <p>You can find a list of these documents in the
+        <a href="#references"> References</a>.
+    </p>
+    <p>The name of the documents may change in time.</p>
+    <p>
+        <span class="note-bold-navy">
+            You can refer to the Oracle Documentation if you need more detailed
+            information on any of the topics in this text.</span>
+    </p>
+
+    <div class="note-97">
+
+        <img src="../images/c4/garden-9983.jpg" style="max-width:100% ;" height="auto" alt="Breath of Fresh Air">
+
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <!--  -->
+
+    <h2 id="dd_review">Database Design Process</h2>
+    <span class="note-bold"> </span>
+    <span class="note-bold-navy"> </span>
+    <span class="note-bold-italic"> </span>
+    <span class="note-bold-navy-italic"> </span>
+
+    <div class="note-95">
+        <p> A <b>Database Design</b>
+            is derived from an <span class="note-bold-navy">Entity Relationship(ER) Model</span>.</p>
+        <p>During the <b>Database Design Process</b>, using the
+            <span class="note-bold-navy">ER Model</span>, we map:
+        </p>
+        <ul>
+            <li><span class="note-bold-navy">Entities</span> into <b>Tables</b></li>
+            <li><span class="note-bold-navy">Attributes</span> into <b>Columns</b></li>
+            <li><span class="note-bold-navy">UIDs</span> into <b>Primary Keys</b></li>
+            <li><span class="note-bold-navy">Relationships</span> into <b>Foreign Keys</b></li>
+            <li><span class="note-bold-navy">UIDs, Relationships, Business Rules</span>
+                into <b>Constraints</b></li>
+        </ul>
+        <p></p>
+        <p></p>
+        <figure>
+            <figcaption></figcaption>
+            <img src="../images/c4/dd-01.jpg" style="max-width:100% ;" height="auto"
+                alt="Database Objects are derived from ER Models.">
+        </figure>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+        <p>In <b>Chapter 2&#8212;Data Modeling and Normalization</b>,
+            we learned about "ER Modeling".
+        </p>
+        <p> We listened to the <b>Story of the European Union</b> from
+            a Business Analyst working in the
+            "IT Organization of the European Union".</p>
+        <p>The Story of the European Union
+            told us by the Business Analyst is also called,
+            the <b>Business Narrative of the Organization</b>.
+        </p>
+        <p>We concentrated on the <b>European Parliament</b> institute of the
+            <b>European Union</b>.
+        </p>
+        <p>Using this <b>Business Narrative of the Organization</b>,
+            we derived;
+        <ul>
+            <li>the Entities</li>
+            <li>their Attributes</li>
+            <li>their UIDs(Unique Identifiers) </li>
+            <li>their Relationships</li>
+            <li>the Business Rules</li>
+        </ul>
+        </p>
+        <p>All this information, some of which was fictitious, enabled us to create a
+            <b>Data Model of the European Parliament</b>.
+        </p>
+
+        <p>At the end of the <b>Modeling and Normalization</b> processes,
+            we came up with an
+            <b>ER(Entity Relationship) Model in Third Normal Form(3NF)</b>,
+            which you can find down below.
+        </p>
+        <p></p>
+    </div>
+    <p></p>
+
+    <div>
+        <figure style="text-align:center ;">
+            <figcaption style="text-align:center ;"><b>Our ER Model of the European Parliament in Third Normal
+                    Form(3NF)</b></figcaption>
+            <img src="../images/c4/our_er_model_ep.jpg" style="max-width:100% ;" height="auto"
+                alt="Our ER Model of the European Parliament">
+        </figure>
+        <p></p>
+    </div>
+
+    <p></p>
+
+
+
+    <div class="note-117">
+        <p></p>
+        <p>According to the <b>"Application Design Cycle"</b> which we have seen in
+            <b>Chapter 2&#8212;Data Modeling and Normalization</b>,
+            the <b>Database Design</b> process comes next:
+        </p>
+        <img style="max-width: 100%; height: auto;" src="../images/c4/designcycle.jpg" alt="Application Design Cycle">
+
+        <p>In this chapter, we will focus on the structures/objects called
+            <b>Integrity Constraints</b>, and <b>How to Create Constraints</b>
+            which is part of the <b>Oracle Database Design Process</b>.
+        </p>
+
+    </div>
+    <p></p>
+
+
+
+    <span class="note-bold"> </span>
+    <span class="note-bold-navy"> </span>
+    <span class="note-bold-italic"> </span>
+    <span class="note-bold-navy-italic"> </span>
+
+    <h2 id="ctr_def">Definition of Integrity Constraint</h2>
+
+    <div class="note-95">
+        <p>An <b>Integrity Constraint</b> is a
+            named rule that restricts the values for one or more columns in a
+            table. </p>
+        <p>The <b>CONSTRAINT</b> clause is used to define
+            an <b>Integrity Constraint</b>. </p>
+        <p>Oracle server uses <b>constraints</b> to ensure
+            <b>Data Integrity</b>, i.e.
+            <b>to prevent invalid data entry</b> into the
+            database tables.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>Constraints <b>enforce</b>
+            Business Rules at the table level.</p>
+        <p>Constraints <b>prevent</b>
+            deletion of a table if there are dependencies from other tables.</p>
+    </div>
+    <p></p>
+
+    <h2 id="ctr_types">Types of Integrity Constraints</h2>
+
+    <h3 id="ctr_types_nn">NOT NULL Constraint </h3>
+    <div class="note-95">
+        <p><b>NOT NULL Constraint</b> prohibits a database value from being NULL.</p>
+        <p><b>NOT NULL Constraint</b>
+            allows or disallows INSERTs or UPDATEs of
+            rows containing a NULL in a specified column.
+        </p>
+    </div>
+    <p></p>
+    <h3 id="ctr_types_unq">UNIQUE Constraint </h3>
+    <div class="note-97">
+        <p><b>UNIQUE Constraint</b> prohibits multiple rows from having
+            the same value in the same column or combination of columns, but
+            allows some values to be NULL.</p>
+
+    </div>
+    <p></p>
+    <h3 id="ctr_types_pk">PRIMARY KEY Constraint </h3>
+    <div class="note-117">
+        <p><b>PRIMARY KEY Constraint</b> combines
+            <b>a "NOT NULL Constraint" and a "UNIQUE Constraint"</b>.
+        </p>
+        <p>That is, a <b>PRIMARY KEY Constraint </b>
+            prohibits multiple rows from having the same value in the same column
+            or combination of columns,
+            and prohibits values from being NULL.</p>
+    </div>
+    <p></p>
+    <h3 id="ctr_types_fk">FOREIGN KEY Constraint </h3>
+    <div class="note-95">
+        <p><b>FOREIGN KEY Constraint</b> requires values in one table
+            to match values
+            in the same table or in another table. </p>
+        <p><b>FOREIGN KEY Constraint</b> designates a column of the table as the
+            <b>FOREIGN KEY</b>, and establishes a
+            <b>Relationship</b> between
+            <b>"the Foreign Key of the table"</b> and
+            <b>"a Primary Key or a Unique Key of another table"</b>.
+        </p>
+        <p>The <b>Primary Key</b> or the <b>Unique Key</b> of
+            <b>"the other table"</b>
+            in this Relationship
+            is called the <b>Referenced Key</b>.
+        </p>
+    </div>
+    <p></p>
+    <h3 id="ctr_types_check">CHECK Constraint </h3>
+    <div class="note-97">
+        <p><b>CHECK Constraint</b> requires a column value in the database
+            to comply with a <b>"Specified Condition"</b>.
+        </p>
+    </div>
+    <p></p>
+    <h3 id="ctr_types_ref">REF Column Constraints </h3>
+    <div class="note-117">
+        <p>You can find detailed information on <b>REF Columns</b> in the
+            <span class="note-bold-navy">
+                "Oracle&#174; Database, Object-Relational Developer's Guide"</span>.
+        </p>
+    </div>
+    <p></p>
+    <div class="note-117">
+        <p>Rules for <b>REF columns and attributes</b> can be enforced by the use of
+            <b></b>Constraints.
+        </p>
+        <p>In Oracle Database, a <b>REF column or attribute</b> can be
+            <span class="note-bold-navy">Unconstrained or Constrained</span>
+            using a <b>SCOPE</b> clause or a <b>Referential Constraint</b> clause.
+
+        </p>
+        <p>
+            When a <b>REF column</b> is
+            <b>Unconstrained</b>, it may store object references to row objects contained in any object
+            table of the corresponding object type.
+        </p>
+        <p>Oracle Database <b>DOES NOT ENSURE</b> that the object references stored in such columns
+            point to valid and existing row objects.
+            Therefore, <b></b>REF columns may contain object
+            references that <b>DO NOT</b> point to any existing row object.
+            Such REF values are referred to
+            as <b>Dangling References</b>.
+        </p>
+        <p></p>
+        <p></p>
+    </div>
+    <p></p>
+    <div class="note-117">
+        <p>A REF column <b>CAN BE CONSTRAINED</b> with a <b>REFERENTIAL Constraint</b>
+            similar to the
+            specification for Foreign Keys.
+            The rules for Referential Constraints apply to such
+            columns.
+            That is, the object reference stored in these columns <b>MUST</b> point to a valid
+            and existing row object in the specified object table.
+        </p>
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+    </div>
+    <p></p>
+    <div class="note-117">
+        <p><b>PRIMARY KEY</b> Constraints <b>CANNOT</b> be specified for REF columns.</p>
+        <p>However, you <b>CAN</b>
+            specify <b>NOT NULL</b> Constraints for REF columns.</p>
+        <p></p>
+        <p></p>
+        <p></p>
+    </div>
+    <p></p>
+    <div class="note-117">
+        <p>For more information on <b>REF Column Constraints</b>,
+            please refer to the
+            <span class="note-bold-navy">
+                "Oracle&#174; Database, Object-Relational Developer's Guide"</span>.
+        </p>
+    </div>
+    <p></p>
+
+
+
+    <h2 id="partial_er">A Section of the ER Model of the European Parliament</h2>
+    <span class="note-bold"> </span>
+    <span class="note-bold-navy"> </span>
+    <span class="note-bold-italic"> </span>
+    <span class="note-bold-navy-italic"> </span>
+    <div class="note-95">
+
+        <p>We will use a Section of <b>Our ER Model of the European Parliament</b>
+            seen below, for Constraint Creation Examples.
+        </p>
+        <p>This model contains only a few of the Entities from
+            <b>Our ER Model of the European Parliament</b>, which we have already developed
+            in <b>Chapter 2&#8212;Data Modeling and Normalization</b>.
+        </p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30">
+        <figure style="text-align:center ;">
+            <figcaption style="text-align:center ;">
+                <b>A Section of the ER Model of the European Parliament for Constraint Examples</b>
+            </figcaption>
+            <img src="../images/c4/our_er_model_constraint_01.jpg" style="max-width:100% ;" height="auto"
+                alt="A Section of the ER Model of the European Parliament for Constraints">
+        </figure>
+        <p></p>
+    </div>
+    <p></p>
+
+
+
+    <div class="note-97">
+        <p>During the <b>Database Design Process</b>, using the
+            <span class="note-bold-navy">ER Model</span>,
+            we mapped <b>Entities</b> into <b>Tables</b>:
+        </p>
+        <ul>
+            <li>Entity <b>POLITICAL_GROUP</b> is mapped into the table
+                <b>POLITICAL_GROUPS</b>.
+            </li>
+            <li>Entity <b>MEP</b> is mapped into the table <b>MEPS</b>.</li>
+            <li>Entity <b>COUNTRY</b> is mapped into the table <b>COUNTRIES</b>.</li>
+        </ul>
+    </div>
+    <p></p>
+
+    <h2 id="tab_inst_chart">Table Instance Chart</h2>
+    <div class="note-95">
+
+        <p>A <b>Table Instance Chart</b> is used during the
+            <b>Database Design Process</b> for preparing
+            the <b>SQL Scripts</b>
+            that create the <b>Database Objects</b>.
+        </p>
+
+        <p>A <b>Table Instance Chart</b> is part of the
+            <b>Database Design Process</b> and it
+            is one of the "Preparation Steps" <b>BEFORE</b>
+            "the ER Model elements are turned into Database Objects".
+        </p>
+        <figure>
+            <figcaption></figcaption>
+            <img src="../images/c4/dd-01.jpg" style="max-width:100% ;" height="auto"
+                alt="Database Objects are derived from ER Models.">
+        </figure>
+        <p>When working on a <b>Table Instance Chart</b>;
+        <ul>
+
+            <li>We determine <b>Tables</b> using <span class="note-bold-navy">Entities</span> </li>
+            <li>We determine <b>Columns</b> using <span class="note-bold-navy">Attributes</span> </li>
+            <li>We determine <b>Primary Keys</b> using <span class="note-bold-navy">UIDs</span> </li>
+            <li>We determine <b>Foreign Keys</b> using <span class="note-bold-navy">Relationships</span> </li>
+            <li>We determine <b>Constraints</b> using
+                <span class="note-bold-navy">
+                    UIDs, Relationships and Business Rules
+                </span>
+            </li>
+            <li>We decide on the <b>Data Type</b>
+                and <b>Length</b> of the <b>Columns</b></li>
+            <li>We may change the <b>Names of the Columns</b> </li>
+            <li>We may add <b>New Columns</b> </li>
+        </ul>
+
+
+
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p> </p>
+        <p>Below is the <b>Table Instance Chart</b> for the <b>MEPS</b> table.
+        </p>
+    </div>
+    <p></p>
+
+    <div>
+        <table>
+            <tr>
+                <th>Column Name</th>
+                <th>Key Type</th>
+                <th>Null / Unique</th>
+                <th>FK Table</th>
+                <th>FK Column</th>
+                <th>Data Type</th>
+                <th>Length</th>
+            </tr>
+            <tr>
+                <td><b>mep_id</b></td>
+                <td>PK</td>
+                <td>NN/U</td>
+                <td></td>
+                <td></td>
+                <td>NUMBER</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>first_name</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>VARCHAR2</td>
+                <td>120</td>
+            </tr>
+            <tr>
+                <td><b>last_name</b></td>
+                <td></td>
+                <td>NN</td>
+                <td></td>
+                <td></td>
+                <td>VARCHAR2</td>
+                <td>120</td>
+            </tr>
+            <tr>
+                <td><b>salary</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>NUMBER</td>
+                <td>(9,2)</td>
+            </tr>
+            <tr>
+                <td><b>bonus_pct</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>NUMBER</td>
+                <td>(5,4)</td>
+            </tr>
+            <tr>
+                <td><b>email</b></td>
+                <td></td>
+                <td>NN/U</td>
+                <td></td>
+                <td></td>
+                <td>VARCHAR2</td>
+                <td>240</td>
+            </tr>
+            <tr>
+                <td><b>tel</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>VARCHAR2</td>
+                <td>20</td>
+            </tr>
+
+            <tr>
+                <td><b>internet</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>VARCHAR2</td>
+                <td>120</td>
+            </tr>
+            <tr>
+                <td><b>start_date</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>DATE</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>country_id</b></td>
+                <td>FK</td>
+                <td></td>
+                <td>COUNTRIES</td>
+                <td>country_id</td>
+                <td>VARCHAR2</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td><b>pg_id</b></td>
+                <td>FK</td>
+                <td></td>
+                <td>POLITICAL_GROUPS</td>
+                <td>pg_id</td>
+                <td>NUMBER</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>pg_chair_or_cochair1</b></td>
+                <td>FK</td>
+                <td></td>
+                <td>MEPS</td>
+                <td>mep_id</td>
+                <td>NUMBER</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>pg_cochair2</b></td>
+                <td>FK</td>
+                <td></td>
+                <td>MEPS</td>
+                <td>mep_id</td>
+                <td>NUMBER</td>
+                <td>10</td>
+            </tr>
+
+        </table>
+    </div>
+    <p> </p>
+
+    <p></p>
+
+    <h3 id="tab_inst_chart_pk">Table Instance Chart&#8212;PRIMARY KEY </h3>
+    <div class="note-95">
+
+        <p>A <b>Primary Key (PK)</b>
+            is a
+            "<span class="note-bold-navy">Column or a Set of Columns</span> "
+            that <b>UNIQUELY IDENTIFY</b>
+            Each Row in a Database Table.
+        </p>
+        <p>Each Table <b>MUST</b> have a <b>Primary Key (PK)</b>. </p>
+        <p>The <b>Primary Key (PK)</b>
+            <span class="note-bold-red">MUST</span>
+            be <b>UNIQUE</b>.
+        </p>
+        <p>The <b>Primary Key (PK)</b>
+            <span class="note-bold-red">MAY NOT</span>
+            be <b>NULL</b>.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-95">
+
+        <p>The <b>UID of an Entity</b> in an ER Model,
+            will map into a
+            <b>Primary Key (PK)</b> in its
+            corresponding Table in the Database.
+        </p>
+
+    </div>
+    <p></p>
+
+    <div>
+        <figure>
+            <figcaption></figcaption>
+            <img src="../images/c4/dd-02.jpg" style="max-width:100% ;" height="auto"
+                alt="A UID in ER Model becomes a Primary Key in Database..">
+        </figure>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p> </p>
+        <p> </p>
+        <p>In the <b>Table Instance Chart</b> for the <b>MEPS</b> table,
+            we can see that the column <b>mep_id</b> is designated as the
+            <b>Primary Key (PK)</b>.
+        </p>
+        <p>Each row in table <b>MEPS</b> can be
+            <b>UNIQUELY IDENTIFIED</b> by the column <b>mep_id</b>.
+        </p>
+    </div>
+    <p></p>
+
+    <h3 id="tab_inst_chart_cpk">Table Instance Chart&#8212;COMPOSITE PRIMARY KEY</h3>
+    <div class="note-95">
+
+        <p>A <b>Primary Key</b> consisting of
+            <span class="note-bold-red">Multiple Columns
+            </span> is called a
+            <b>Composite Primary Key</b>
+            or a
+            <b>Compound Primary Key</b>.
+        </p>
+
+        <ul>
+            <li>The COLUMNS of a
+                <b>Composite Primary Key</b>
+                <span class="note-bold-red">MUST</span>
+                be
+                <b>UNIQUE in Combination</b>,
+                although the <b>Individual Columns </b>
+                <span class="note-bold-red">CAN</span>
+                have
+                <b>Duplicates</b>.
+            </li>
+            <li>
+                <span class="note-bold-red">NO PART</span>
+                of a <b>Composite Primary Key</b>
+                may be <b>NULL</b>,
+                i.e.
+                <span class="note-bold-red">NO PART</span>
+                of a <b>Composite Primary Key</b>
+                <span class="note-bold-red">
+                    MAY LACK</span> a <b>Value</b>.
+            </li>
+
+        </ul>
+
+
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>In the <b>Table Instance Chart</b> for the <b>MEPS</b> table,
+            we can see <b>NO COLUMNS</b> designated as a
+            <b>Composite Primary Key</b>.
+        </p>
+        <p>The single column <b>mep_id</b> is designated as the
+            <b>Primary Key (PK)</b> for the <b>MEPS</b> table.
+        </p>
+        </p>
+    </div>
+    <p></p>
+
+    <h3 id="tab_inst_chart_apk">Table Instance Chart&#8212;ALTERNATE PRIMARY KEY </h3>
+    <div class="note-95">
+        <b></b>
+        <span class="note-bold-navy"></span>
+        <span class="note-bold-red"></span>
+
+        <p>A table can have several <b>Candidate Primary Keys</b>.
+        </p>
+        <p>A <span class="note-bold-red">CANDIDATE</span>
+            <b>Primary Key</b> is
+            a column or combination of columns that
+            <span class="note-bold-red">CAN Serve</span> as the
+            <b>Primary Key</b> for the table.
+        </p>
+        <p>We select
+            <span class="note-bold-red">One of the Candidate Primary Keys</span>
+            to be the <b>Primary Key</b> for the table.
+        </p>
+        <p>The <span class="note-bold-navy">Other Candidates</span>
+            <span class="note-bold-red">MAY Become</span>
+            <span class="note-bold-navy">Alternate Primary Keys or Unique Keys</span>.
+        </p>
+
+    </div>
+    <p></p>
+
+    <b></b>
+    <span class="note-bold-navy"></span>
+    <span class="note-bold-red"></span>
+
+    <div class="note-97">
+        <p>We have already selected the <b>"mep_id"</b> column as
+            the <b>Primary Key</b> for the
+            <b>MEPS</b> table.
+        </p>
+        <p>The column
+            <span class="note-bold-navy">"email"</span><b></b>
+            is
+            <b>another Candidate Primary Key</b>
+            for the
+            <b>MEPS</b> table.
+        </p>
+        <b></b>
+        <span class="note-bold-navy"></span>
+        <span class="note-bold-red"></span>
+        <p><span class="note-bold-red">NO TWO ROWS</span>
+            in the <b>MEPS</b> table can have
+            <span class="note-bold-navy">identical emails</span>.
+        </p>
+        <p>The values of the
+            <span class="note-bold-navy">"email"</span>
+            column
+            <span class="note-bold-red">MUST be NOT NULL</span> and
+            <span class="note-bold-red">MUST be UNIQUE</span>.
+        </p>
+        <p>Therefore,
+            the column <span class="note-bold-navy">"email"</span>
+            <span class="note-bold-red">CAN BE</span>
+            an <span class="note-bold-navy">Alternate Primary Key </span>
+            for the <b>MEPS</b> table.
+        </p>
+
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p> </p>
+        <p>Below is the <span class="note-bold-navy">
+                "email"</span> column of the
+            <b>Table Instance Chart</b> for the <b>MEPS</b> table.
+        </p>
+    </div>
+    <p></p>
+
+    <div>
+        <table>
+            <tr>
+                <th>Column Name</th>
+                <th>Key Type</th>
+                <th>Null / Unique</th>
+                <th>FK Table</th>
+                <th>FK Column</th>
+                <th>Data Type</th>
+                <th>Length</th>
+            </tr>
+
+            <tr>
+                <td><b>email</b></td>
+                <td></td>
+                <td>NN/U</td>
+                <td></td>
+                <td></td>
+                <td>VARCHAR2</td>
+                <td>240</td>
+            </tr>
+
+        </table>
+
+    </div>
+    <p></p>
+
+
+
+
+    <div class="note-117">
+
+        <p> </p>
+        <p>The SQL Script which creates the
+            <b>MEPS</b> table, will ensure
+            that;
+            <span class="note-bold-navy"></span>
+            <span class="note-bold-red"></span>
+        <ul>
+            <li>the values of the <span class="note-bold-navy">
+                    "email"</span> column
+                <span class="note-bold-red">CAN NEVER BE NULL (NN)</span>
+            </li>
+            <li>the values of the <span class="note-bold-navy">
+                    "email"</span> column
+                <span class="note-bold-red">WILL ALWAYS BE UNIQUE (U) </span>
+            </li>
+        </ul>
+        </p>
+        <p>These are achieved by creating a
+            <span class="note-bold-red">NOT NULL Constraint (NN) </span>
+            and a <span class="note-bold-red">UNIQUE Constraint (U) </span>
+            on the
+            <span class="note-bold-navy">"email"</span> column,
+            within the SQL Script.
+        </p>
+
+    </div>
+    <p></p>
+
+    <h3 id="tab_inst_chart_fk">Table Instance Chart&#8212;FOREIGN KEY</h3>
+    <div class="note-95">
+        <span class="note-bold-navy"></span>
+        <span class="note-bold-red"></span>
+        <p> <span class="note-bold-navy">Relationships</span>
+            in an
+            <span class="note-bold-navy">ER Model</span>
+            are mapped into
+            <b>Foreign Keys</b>
+            <b></b> in the Database.
+        </p>
+        <p> </p>
+        <p> </p>
+
+        <p></p>
+
+
+        <figure>
+            <figcaption></figcaption>
+            <img src="../images/c4/dd-03.jpg" style="max-width:100% ;" height="auto"
+                alt="A Relationship in ER Model becomes a Foreign Key in Database..">
+        </figure>
+    </div>
+    <p></p>
+    <p></p>
+
+    <div class="note-95">
+        <p>As we can see in the
+            <b>ER Model of the European Parliament</b>,
+            there are a few <b>Relationships</b> regarding the
+            Entities
+            <b>MEP</b>, <b>POLITICAL GROUP</b> and the <b>COUNTRY</b>.
+        </p>
+        <p></p>
+    </div>
+    <p></p>
+    <p></p>
+    <div class="note-charcoal-a30">
+        <figure style="text-align:center ;">
+            <figcaption style="text-align:center ;">
+                <b>A Section of the ER Model of the European Parliament for Constraint Examples</b>
+            </figcaption>
+            <img src="../images/c4/our_er_model_constraint_01.jpg" style="max-width:100% ;" height="auto"
+                alt="A Section of the ER Model of the European Parliament for Constraints">
+        </figure>
+        <p></p>
+    </div>
+    <p></p>
+    <span class="note-bold-navy"></span>
+    <span class="note-bold-red"></span>
+    <div class="note-95">
+
+        <p>From the point of view of the
+            <b>MEPS</b> table
+            under consideration, these Relationships are;
+        </p>
+        <ul>
+            <li>Each <b>Member of the Parliament (MEP)</b>
+                <span class="note-bold-red">MUST</span>
+                <span class="note-bold-navy">be a citizen of</span>
+                One and Only One
+                <b>EU Country (COUNTRY)</b>.
+            </li>
+            <li>Each <b>Member of the Parliament (MEP)</b>
+                <span class="note-bold-red">MUST</span>
+                <span class="note-bold-navy">belong to</span>
+                One and Only One
+                <b>Political Group of the European Parliament
+                    (POLITICAL GROUP)</b>.
+            </li>
+            <li>Each <b>Member of the Parliament (MEP)</b>
+                <span class="note-bold-red">MUST</span>
+                <span class="note-bold-navy">
+                    be chaired by a chair or a co-chair</span>
+                who is also
+                a <b>Member of the Parliament (MEP)</b>
+                &#8212; This last <span class="note-bold-navy">Relationship</span> tells us that
+                <b>MEP</b> is a
+                <span class="note-bold-red">Self Referencing Entity</span>.
+            </li>
+        </ul>
+
+
+    </div>
+    <p></p>
+    <span class="note-bold-navy"></span>
+    <span class="note-bold-red"></span>
+    <div class="note-95">
+
+        <p>These <span class="note-bold-navy">Relationships</span>
+            are mapped into <b>Foreign Keys</b> in the Database Design stage. </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-95">
+
+        <p>A
+            <b>Foreign Key (FK)</b> is
+            a "<b>Column
+                or a
+                Combination of Columns</b>" in <b>One Table</b>
+            that <span class="note-bold-red">REFERS</span> to a
+            <span class="note-bold-navy">Primary Key</span> in the
+            "<span class="note-bold-navy">
+                Same Table or in Another Table</span>".
+
+            <b></b>
+            <b></b>
+            <b></b>
+        </p>
+        <span class="note-bold-navy"></span>
+        <span class="note-bold-red"></span>
+        <p></p>
+        <p></p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+        <p>Below is the <b>Table Instance Chart</b>
+            for
+            the <b>MEPS</b> table,
+            showing the <b>FOREIGN KEY</b> columns only.
+        </p>
+        <p> </p>
+        <table>
+            <tr>
+                <th>Column Name</th>
+                <th>Key Type</th>
+                <th>Null / Unique</th>
+                <th>FK Table</th>
+                <th>FK Column</th>
+                <th>Data Type</th>
+                <th>Length</th>
+            </tr>
+
+            <tr>
+                <td><b>country_id</b></td>
+                <td>FK</td>
+                <td></td>
+                <td>COUNTRIES</td>
+                <td>country_id</td>
+                <td>VARCHAR2</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td><b>pg_id</b></td>
+                <td>FK</td>
+                <td></td>
+                <td>POLITICAL_GROUPS</td>
+                <td>pg_id</td>
+                <td>NUMBER</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>pg_chair_or_cochair1</b></td>
+                <td>FK</td>
+                <td></td>
+                <td>MEPS</td>
+                <td>mep_id</td>
+                <td>NUMBER</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>pg_cochair2</b></td>
+                <td>FK</td>
+                <td></td>
+                <td>MEPS</td>
+                <td>mep_id</td>
+                <td>NUMBER</td>
+                <td>10</td>
+            </tr>
+        </table>
+
+    </div>
+    <p></p>
+
+    <h2 id="sql_cr_table">SQL &#8212; CREATE TABLE Statement</h2>
+
+    <div class="note-95">
+
+        <p>Below is the <b>SQL CREATE TABLE Statement</b>
+            which creates the
+            <b>MEPS</b> table in our <b>Database</b>.
+        </p>
+
+    </div>
+    <p>
+    </p>
+
+
+    <div class="note-charcoal-a30">
+
+        <p> </p>
+        <pre style="font-size:larger ;">
+/* MEPS */
+CREATE TABLE meps (
+    mep_id                NUMBER(10)
+        CONSTRAINT mep_id_pk PRIMARY KEY,
+    first_name            VARCHAR2(120),
+    last_name             VARCHAR2(120)
+        CONSTRAINT last_name_nn NOT NULL,
+    salary                NUMBER(9, 2),
+    bonus_pct             NUMBER(5, 4),
+    email                 VARCHAR2(240)
+        CONSTRAINT email_nn NOT NULL
+        CONSTRAINT email_unique UNIQUE,
+    tel                   VARCHAR2(20),
+    internet              VARCHAR2(120),
+    start_date            DATE,
+    country_id            VARCHAR2(4)
+        CONSTRAINT country_id_fk
+            REFERENCES countries ( country_id ),
+    pg_id                 NUMBER(10)
+        CONSTRAINT pg_id_fk
+            REFERENCES political_groups ( pg_id ),
+    pg_chair_or_cochair1  NUMBER(10)
+        CONSTRAINT pg_chair_cochair1_fk
+            REFERENCES meps ( mep_id ),
+    pg_cochair2           NUMBER(10)
+        CONSTRAINT pg_cochair2_fk
+            REFERENCES meps ( mep_id )
+);
+</pre>
+
+    </div>
+    <p></p>
+
+
+    <div class="note-97">
+        <p>To reach this <b>SQL CREATE TABLE Statement</b>,
+            we have gone through many many steps:</p>
+        <p>
+        </p>
+        <ul>
+            <li>We listened to the Story of our Business which we
+                also call the Business Narrative.</li>
+            <li>Using this Business Narrative, we created the
+                Data Model of Our Business. We rigorously went through
+                the steps of Normalization, and we
+                created an ER Model in Third Normal Form (3NF),
+                which has No Data Redundancy.
+            </li>
+            <li>Using Our ER Model, we mapped Entities into Tables,
+                Attributes into Columns, UIDs into Primary Keys,
+                Relationships into Foreign Keys, and
+                UIDs, Relationships and Business Rules into Constraints,
+                we created Table Instance Charts and
+                Designed our Database.
+            </li>
+            <li>Now we can create the SQL Statements on top of our
+                Database Design which will be used
+                to create our Database.
+            </li>
+            <li>Our Company/Institution can Build Up Business Information Systems
+                on top of that Database.
+            </li>
+        </ul>
+        <img style="max-width: 100%; height: auto;" src="../images/c4/designcycle.jpg" alt="Application Design Cycle">
+
+    </div>
+    <p></p>
+
+
+    <p></p>
+
+
+    <div class="note-117">
+
+        <p>Our <b>SQL CREATE TABLE Statement</b> contains
+            <b>CONSTRAINT Clauses</b> to create several Types of Constraints
+            that we will now examine.
+        </p>
+
+    </div>
+    <p></p>
+
+    <span class="note-bold-navy"></span>
+    <span class="note-bold-red"></span>
+
+    <h2 id="cons_in_out_line">INLINE and OUT-OF-LINE Constraint Specifications </h2>
+    <div class="note-95">
+
+        <p> </p>
+        <p><span class="note-bold-red">INLINE SPECIFICATION</span>
+            is, when you define an Integrity Constraint as part of an
+            <b>"Individual Column Definition"</b> of an
+            SQL CREATE TABLE Statement.
+        </p>
+
+        <p><span class="note-bold-red">OUT-OF-LINE SPECIFICATION</span>
+            is, when an Integrity Constraint is declared as
+            part of the <b>"Table Definition"</b>
+            of an
+            SQL CREATE TABLE Statement.
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p> </p>
+        <p><b>NOT NULL</b> Constraints <b>MUST</b> be
+            declared <span class="note-bold-red">INLINE</span>. </p>
+        <p><b>All Other</b> Integrity Constraints <b>CAN BE</b>
+            declared either
+            <span class="note-bold-red">INLINE</span> or
+            <span class="note-bold-red">OUT-OF-LINE</span>.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-117">
+        <p><span class="note-bold-red">OUT-OF-LINE Constraint Definition</span>
+            can appear
+            <b>BEFORE</b> or <b>AFTER</b> the
+            <b>Column Definitions</b>.
+        </p>
+    </div>
+    <p></p>
+
+    <h2 id="sql_nn">SQL &#8212; NOT NULL CONSTRAINT</h2>
+    <h3 id="sql_nn_cl">SQL &#8212; NOT NULL Constraint Clause</h3>
+    <div class="note-95">
+        <p>The lines seen below are part of our
+            <a href="#sql_cr_table"><b>SQL CREATE TABLE Statement</b></a>
+            for the
+            <b>MEPS</b> table.
+        </p>
+    </div>
+    <p></p>
+
+
+
+
+    <div class="note-charcoal-a30-large">
+
+        <pre style="font-size:larger ;">
+last_name VARCHAR2(120)
+    CONSTRAINT last_name_nn NOT NULL,
+</pre>
+    </div>
+    <p></p>
+
+
+    <div class="note-95">
+        <p></p>
+        <p>These lines define
+            <b>the column LAST_NAME</b> (last_name VARCHAR2(120)).
+        </p>
+        <p>At the same time, they define
+            a <b>NOT NULL Constraint</b> on
+            <b>the column LAST_NAME</b> (CONSTRAINT last_name_nn NOT NULL).
+        </p>
+
+
+        <p>The name of this <b>NOT NULL Constraint</b> is
+            <span class="note-bold-red">LAST_NAME_NN</span>.
+        </p>
+        <p>This <b>NOT NULL Constraint</b> on the
+            column <b>LAST_NAME</b> ensures that there will
+            <span class="note-bold-red">ALWAYS</span> be
+            a <b>NONE NULL value</b> in this column.
+        </p>
+    </div>
+    <p></p>
+
+
+    <div class="note-97">
+
+        <p>You <b>MUST</b> define a
+            <b>NOT NULL Constraint</b> using
+            <span class="note-bold-red">INLINE SPECIFICATION</span>,
+            i.e. as part of the column definition.
+        </p>
+
+    </div>
+    <p></p>
+
+
+    <div class="note-117">
+
+        <p>If you specify neither
+            <b>NOT NULL</b>, nor <b>NULL</b>,
+            then the Default is <b>NULL</b>.
+        </p>
+        <p> </p>
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <ul>
+            <li>The <b>NULL</b> Keyword by itself
+                <span class="note-bold-red">DOES NOT</span>
+                actually Define an Integrity Constraint.
+            </li>
+            <li>But, you can specify it to <b>EXPLICITLY PERMIT</b>
+                a column to contain <b>NULL</b>s.
+            </li>
+        </ul>
+        <p> </p>
+        <p> </p>
+
+
+    </div>
+    <p></p>
+    <h3 id="sql_nn_dd">SQL &#8212; NOT NULL Constraint in Data Dictionary</h3>
+
+
+    <div class="note-95">
+
+        <p>You can query the newly created NOT NULL Constraints
+            in the Data Dictionary. </p>
+        <p>The two SQL Statements below, query the NOT NULL Constraints
+            in two different ways.
+        </p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30">
+        <b>Query One</b>
+        <pre style="font-size:larger ;">
+/******************************
+Query the DD Table USER_CONSTRAINTS
+on the CONSTRAINT_NAME 
+***********************************/    
+SELECT *
+FROM USER_CONSTRAINTS
+WHERE 1=1
+AND CONSTRAINT_NAME='LAST_NAME_NN'
+</pre>
+        <p> </p>
+        <p><img src="../images/c4/cons_nn_01.jpg" style="max-width:100% ;" height="auto" alt="NOT NULL Constraint on LAST_NAME"> </p>
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30">
+        <b>Query Two</b>
+        <pre style="font-size:larger ;">
+/******************************
+Query the DD Tables USER_CONSTRAINTS
+and USER_CONS_COLUMNS
+for the table MEPS.
+Query only the CONSTRAINT_TYPE='C'
+which can either be a NOT NULL Constraint 
+or a CHECK Constraint.  
+******************************/     
+SELECT UC.TABLE_NAME,
+UC.CONSTRAINT_TYPE,
+UC.CONSTRAINT_NAME,
+UCC.COLUMN_NAME,
+UC.SEARCH_CONDITION
+FROM USER_CONSTRAINTS UC
+JOIN USER_CONS_COLUMNS UCC
+ON (UCC.CONSTRAINT_NAME=UC.CONSTRAINT_NAME)
+WHERE 1=1
+AND UC.TABLE_NAME='MEPS'
+AND UC.CONSTRAINT_TYPE='C'
+</pre>
+        <p> </p>
+        <p><img src="../images/c4/cons_nn_03.jpg" style="max-width:100% ;" height="auto" alt="NOT NULL Constraints on TABLE MEPS">
+        </p>
+    </div>
+    <p></p>
+    <div class="note-97">
+
+        <p> </p>
+        <ul>
+            <li>Constraint Type <b>'C'</b> is used for
+                "<b>NOT NULL</b> Constraints" and "<b>CHECK</b> Constraints". </li>
+            <li>The query result above displays two
+                <b>"NOT NULL Constraints"</b>
+                on the <b>MEPS</b> table.
+            </li>
+            <li>The <b>SEARCH_CONDITION Column</b> of the
+                <b>USER_CONSTRAINTS Data Dictionary table</b>
+                helps us understand the type of the constraint
+                &#8212; whether "NOT NULL" or "CHECK".
+            </li>
+        </ul>
+    </div>
+    <p></p>
+
+    <h2 id="sql_unq">SQL &#8212; UNIQUE CONSTRAINT</h2>
+
+    <h3 id="sql_unq_single">SQL &#8212; UNIQUE Constraint on a Single Column</h3>
+
+    <div class="note-95">
+        <p>The lines seen below are part of our
+            <a href="#sql_cr_table"><b>SQL CREATE TABLE Statement</b></a>
+            for the
+            <b>MEPS</b> table.
+        </p>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30-large">
+        <pre style="font-size:larger ;">
+email   VARCHAR2(240)
+    CONSTRAINT email_nn NOT NULL
+    CONSTRAINT email_unique UNIQUE,
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-95">
+        <p>These lines define <b>the column EMAIL</b> (email VARCHAR2(240)). </p>
+        <p>At the same time, they define;
+        <ul>
+            <li>a <b>NOT NULL Constraint</b> named <b>EMAIL_NN</b>
+                (CONSTRAINT email_nn NOT NULL) </li>
+            <li>a <b>UNIQUE Constraint</b> named <b>EMAIL_UNIQUE</b>
+                (CONSTRAINT email_unique UNIQUE) </li>
+        </ul>
+        on <b>the column EMAIL</b>.
+        </p>
+        <p>In this section, we will investigate the
+            <span class="note-bold-red">UNIQUE Constraint</span> on <b>the column EMAIL &#8212; a single column</b>.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>The <b>UNIQUE Constraint</b> ensures
+            that every value in a column is
+            <span class="note-bold-red">UNIQUE</span>.
+        </p>
+        <p>This means that no two rows of a table
+            can have the same value in a specified column
+            &#8212;
+            <span class="note-bold-red">NO DUPLICATE VALUES</span>
+            are allowed in the same column.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>The <b>UNIQUE Constraint</b> <span class="note-bold-red">ALLOWS</span>
+            the input of <span class="note-bold-red">NULL Values</span>
+            in a column. </p>
+        <p>This is because;
+        <ul>
+            <b>
+                <li>Each NULL is Unique</li>
+            </b>
+            and
+            <b>
+                <li>No TWO NULL Values are EVER EQUAL to each other</li>
+            </b>
+        </ul>
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p>However, in this case, two different types of constraints are
+            defined on the <b>EMAIL</b> column: </p>
+        <div class="note-charcoal-a30-large">
+            <pre style="font-size:larger ;">
+email   VARCHAR2(240)
+    CONSTRAINT email_nn NOT NULL
+    CONSTRAINT email_unique UNIQUE,
+</pre>
+            <p> </p>
+
+        </div>
+        <span class="note-bold-navy"></span>
+        <span class="note-bold-red"></span>
+        <p>These <span class="note-bold-navy">"two constraints together"</span> ensure that;
+        <ul>
+            <li><b>One:</b> The <b>email column</b>
+                <span class="note-bold-red">ALWAYS</span> has a
+                <span class="note-bold-red">none-null value</span> (CONSTRAINT email_nn NOT NULL) in it.
+            </li>
+            and
+            <li><b>Two:</b> This <b>none-null value</b> is
+                <span class="note-bold-red">Unique</span> (CONSTRAINT email_unique UNIQUE) in the MEPS table.
+            </li>
+        </ul>
+        </p>
+        <p>Also, because of these two constraints,
+            the column email becomes a Candidate Primary Key.</p>
+        <p>As we already have a Primary Key (the mep_id column),
+            the column "email" is chosen as an Alternate Primary Key.</p>
+    </div>
+    <p></p>
+
+    <div class="note-95">
+
+        <p>This <b>UNIQUE Constraint</b> on the single column <b>"email"</b>
+            is specified <b>INLINE</b>,
+            as part of the
+            <b>Column Definition</b>.
+
+        </p>
+
+    </div>
+    <p></p>
+
+    <h3 id="sql_unq_single_dd">SQL &#8212; UNIQUE Constraint in Data Dictionary (Single Column)</h3>
+
+
+    <div class="note-95">
+
+        <p>You can query this UNIQUE Constraint
+            in the Data Dictionary. </p>
+        <p>Constraint Type <b>'U'</b> is used for
+            <b>"UNIQUE Constraints"</b>.
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+/**********************
+Query the DD Tables 
+USER_CONSTRAINTS and 
+USER_CONS_COLUMNS
+to find out all the UNIQUE Constraints 
+on table MEPS.
+************************/
+SELECT UC.TABLE_NAME,
+UC.CONSTRAINT_TYPE,
+UC.CONSTRAINT_NAME,
+UCC.COLUMN_NAME,
+UC.INDEX_NAME
+FROM USER_CONSTRAINTS UC
+JOIN USER_CONS_COLUMNS UCC
+ON (UCC.CONSTRAINT_NAME=UC.CONSTRAINT_NAME)
+WHERE 1=1
+AND UC.TABLE_NAME='MEPS'
+AND UC.CONSTRAINT_TYPE='U'
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p> </p>
+        <p><img src="../images/c4/cons_unique_02.jpg" style="max-width:100% ;" height="auto"
+                alt="UNIQUE Constraint on a Single Column"> </p>
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p>The query result above, displays all the
+            <b>"UNIQUE Constraints"</b> on
+            <b>"MEPS"</b> table &#8212; <b>"UC.CONSTRAINT_TYPE='U'"</b>.
+        </p>
+        <p>We can see that there is only one
+            UNIQUE Constraint defined
+            on the "MEPS" table. </p>
+    </div>
+    <p></p>
+
+    <h3 id="sql_unq_multi">SQL &#8212; UNIQUE Constraint on Multiple Columns</h3>
+    <div class="note-95">
+
+        <p>We will use the <b>SQL Create Table Statement</b> of the
+            <b>MEP_PG_ROLES</b> table, as an example on
+            <b>"UNIQUE Constraint on Multiple Columns"</b>.
+        </p>
+        <p>Below is a section of <b>Our ER Model of the European Parliament</b>
+            for this purpose.
+
+        </p>
+    </div>
+    <p></p>
+    <p></p>
+    <div class="note-charcoal-a30">
+        <figure style="text-align:center ;">
+            <figcaption style="text-align:center ;">
+                <b>A Section of Our ER Model with MEP_PG_ROLE</b>
+            </figcaption>
+            <img src="../images/c4/cons_unique_01.jpg" style="max-width:100% ;" height="auto"
+                alt="A Section of Our ER Model for MEP_PG_ROLE">
+        </figure>
+        <p></p>
+    </div>
+    <p></p>
+
+    <div class="note-95">
+        <p>Below is the <b>SQL CREATE TABLE Statement</b>
+            which creates the <b>MEP_PG_ROLES</b> table
+            in our <b>Database</b>.
+        </p>
+        <p></p>
+
+        <b></b>
+        <b></b>
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+create table MEP_PG_ROLES
+(mep_id	number(10)
+    constraint mep_pg_roles_mep_id_fk
+    references MEPS(mep_id)
+    constraint mep_pg_roles_mep_id_nn not null
+,pg_role_id	number(10)
+    constraint mep_pg_roles_role_id_fk
+    references ROLES(role_id)
+    constraint mep_pg_roles_role_id_nn not null
+,constraint mep_pg_roles_un
+unique (mep_id, pg_role_id)
+); 
+</pre>
+    </div>
+    <p> </p>
+
+    <div class="note-95">
+        <p>The lines below which are part of
+            the <b>SQL CREATE TABLE Statement</b>,
+            define a
+            <b>UNIQUE Constraint</b>
+            named <b>MEP_PG_ROLES_UN</b>
+            on two columns of the table:
+        <ul>
+            <li><b>mep_id</b></li>
+            <li><b>pg_role_id</b></li>
+        </ul>
+    </div>
+
+    <div class="note-charcoal-a30-large">
+        <pre style="font-size:larger ;">
+,constraint mep_pg_roles_un
+unique (mep_id, pg_role_id)
+; 
+</pre>
+    </div>
+
+
+    <div class="note-95">
+
+
+        <p>This <b>UNIQUE Constraint</b>
+            named <b>MEP_PG_ROLES_UN</b>
+            on the multiple columns
+            "<b>mep_id</b>" and "<b>pg_role_id</b>"
+            is specified <b>OUT-OF-LINE</b>, as part of the
+            <b>Table Definition</b>.
+        </p>
+        <b></b>
+
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>A UNIQUE Constraint on <b>"multiple columns"</b> such as
+            the one just created on "<b>mep_id</b>" and "<b>pg_role_id</b>"
+            can also be called a
+            <span class="note-bold-red">Composite Unique Key Constraint</span>.
+        </p>
+        <p>A <span class="note-bold-red">Composite Unique Key Constraint</span>
+            <b>MUST BE Defined OUT-OF-LINE</b>, as part of the Table Definition.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+        <p class="note-bold-red">
+            To Satisfy a Composite Unique Key Constraint:
+        </p>
+        <ul>
+            <div class="note-97">
+                <li><b>NO TWO ROWS</b> in the table can have
+                    <b>"the Same Combination of Values"</b>
+                    in the "Composite Unique Key Columns".
+                </li>
+            </div>
+            <p></p>
+            <div class="note-97-a15">
+                <li>Any row that contains
+                    <b>"NULLS in All UNIQUE Constraint Columns"</b>
+                    automatically <b>SATISFIES</b> the
+                    "Composite Unique Key Constraint".
+                </li>
+            </div>
+            <p></p>
+            <div class="note-97-a30">
+                <li>You <b>CANNOT have Identical Values</b> in the
+                    <b>"NON-NULL Columns"</b> of
+                    the "Composite UNIQUE Key Constraint".<br>
+                    This means that; <br>
+                    Two rows that contain
+                    <ul>
+                        <li><b>"NULLs for One or More Key Columns"</b></li>
+                        and
+                        <li><b>"the Same Combination of Values for the Other Key Columns"</b></li>
+                    </ul>
+                    <b>VIOLATE</b> the Constraint.
+                </li>
+            </div>
+            <p></p>
+        </ul>
+    </div>
+    <p></p>
+
+    <h3 id="sql_unq_multi_dd">SQL &#8212; UNIQUE Constraint in Data Dictionary (Multiple Columns)</h3>
+
+    <div class="note-95">
+
+        <p>Let's query this
+            <b>Composite Unique Key Constraint</b>
+            in the Data Dictionary.
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30">
+
+        <p> </p>
+        <pre style="font-size:larger ;">
+/**********************
+Query the DD Tables 
+USER_CONSTRAINTS and 
+USER_CONS_COLUMNS
+to find out 
+all the UNIQUE Constraints 
+on table MEP_PG_ROLES.
+*****
+Because there are MULTIPLE COLUMNS,
+we can ORDER BY the POSITION column of 
+the USER_CONS_COLUMNS table.
+************************/    
+SELECT UC.TABLE_NAME,
+UC.CONSTRAINT_TYPE,
+UC.CONSTRAINT_NAME,
+UCC.COLUMN_NAME,
+UCC.POSITION,
+UC.INDEX_NAME
+FROM USER_CONSTRAINTS UC
+JOIN USER_CONS_COLUMNS UCC
+ON (UCC.CONSTRAINT_NAME=UC.CONSTRAINT_NAME)
+WHERE 1=1
+AND UC.TABLE_NAME='MEP_PG_ROLES'
+AND UC.CONSTRAINT_TYPE='U'
+ORDER BY UCC.POSITION
+</pre>
+    </div>
+    <p></p>
+
+    <div class="note-117">
+        <p><img src="../images/c4/mep_pg_roles_un_01.jpg" style="max-width:100% ;" height="auto"
+                alt="UNIQUE Constraint on Multiple Columns"> </p>
+    </div>
+    <p> </p>
+
+    <div class="note-charcoal-a30">
+        <p>
+        <figure>
+            <figcaption>
+                <span class="note-110">Beauty in Most Unexpected Places</span>
+            </figcaption>
+
+            <img src="../images/c4/beauty_most_unexpected.jpg" style="max-width:100% ;" height="auto"
+                alt="Beauty In Most Unexpected">
+        </figure>
+        </p>
+    </div>
+    <p> </p>
+
+    <h2 id="sql_pk">SQL &#8212; PRIMARY KEY CONSTRAINT</h2>
+
+    <h3 id="sql_pk_cl">SQL &#8212; PRIMARY KEY Constraint on a Single Column </h3>
+    <div class="note-95">
+
+        <p> </p>
+        <p>The lines seen below are part of our
+            <a href="#sql_cr_table"><b>SQL CREATE TABLE Statement</b></a>
+            for the
+            <b>MEPS</b> table.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+mep_id  NUMBER(10)
+CONSTRAINT  mep_id_pk PRIMARY KEY,
+</pre>
+        <p> </p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>These lines define the column
+            <b>MEP_ID</b> (mep_id NUMBER(10)).
+        </p>
+        <p>At the same time, they define a
+            <b>PRIMARY KEY Constraint</b>
+            on the column <b>MEP_ID</b> (CONSTRAINT mep_id_pk PRIMARY KEY).
+        </p>
+
+        <p>The name of this <b>PRIMARY KEY Constraint</b> is
+            <span class="note-bold-red">MEP_ID_PK</span>.
+        </p>
+        <p>This <b>PRIMARY KEY Constraint</b> is specified
+            <span class="note-bold-red">INLINE</span> as
+            part of the column definition.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p>This <b>PRIMARY KEY Constraint</b> named
+            <span class="note-bold-red">MEP_ID_PK</span>,
+            enables each row to be uniquely identified by the values in the
+            <b>MEP_ID</b> column.
+        </p>
+        <p>The values of the <b>MEP_ID</b> column: </p>
+        <ul>
+            <li><b>MUST BE NOT NULL</b></li>
+            <li><b>MUST BE UNIQUE</b></li>
+        </ul>
+        <p> </p>
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p>A <b>PRIMARY KEY Constraint</b> combines a
+            <b>NOT NULL Constraint</b> and a <b>UNIQUE Constraint</b>
+            in one Declaration.
+        </p>
+        <p>Therefore, to
+            <span class="note-bold-red">SATISFY</span> a
+            <b>PRIMARY KEY Constraint</b>:
+        </p>
+
+        <div>
+            <ul class="note-110">
+                <li>NO Primary Key Value can appear in More than One Row in the table.</li>
+                <li>NO column that is part of the Primary Key can contain a NULL.</li>
+            </ul>
+        </div>
+        <p> </p>
+    </div>
+    <p></p>
+
+
+
+    <h3 id="sql_pk_dd">SQL &#8212; PRIMARY KEY Constraint in DD (Single Column)</h3>
+
+    <div class="note-95">
+        <p>We can query this <b>PRIMARY KEY Constraint</b> in
+            the Data Dictionary.</p>
+        <p>For <b>PRIMARY KEY Constraints</b>,
+            Constraint Type <b>'P'</b> is used.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+/**********************
+Query the DD Tables 
+USER_CONSTRAINTS and
+USER_CONS_COLUMNS 
+to find out the 
+Primary Key Constraint of the 
+MEPS table.
+***********************/
+SELECT UC.OWNER,
+UC.TABLE_NAME,
+UC.CONSTRAINT_TYPE,
+UC.CONSTRAINT_NAME,
+UCC.COLUMN_NAME
+FROM USER_CONSTRAINTS UC
+JOIN USER_CONS_COLUMNS UCC
+ON (UCC.CONSTRAINT_NAME=UC.CONSTRAINT_NAME)
+WHERE 1=1
+AND UC.TABLE_NAME='MEPS'
+AND UC.CONSTRAINT_TYPE='P'
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p> <img src="../images/c4/cons_pk_01.jpg" style="max-width: 100%;" height="auto"
+                alt="Query the PRIMARY KEY in Data Dictionary">
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p>The result of the query is displayed above.
+            There is always <b>ONE Primary Key Constraint</b>
+            for a Table, made up of <b>One or More Columns</b>.
+        </p>
+        <p>In this case, the PRIMARY KEY Constraint
+            <b>(CONSTRAINT_TYPE='P')</b> is made up of
+            a <b>Single Column &#8212; MEP_ID</b>.
+
+        </p>
+    </div>
+    <p></p>
+
+
+
+    <h3 id="sql_pk_cl_multi">SQL &#8212; PRIMARY KEY Constraint on Multiple Columns </h3>
+    <div class="note-95">
+
+        <p>Below is the
+            <b>SQL CREATE TABLE Statement</b> for the table <b>MEPS_HISTORY</b>.
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+create table	MEPS_HISTORY
+(mep_id	number(10)
+ constraint meps_history_mep_id_nn not null
+ constraint meps_history_mep_id_fk
+    references MEPS(mep_id)
+,start_date	date
+ constraint meps_history_start_date_nn not null
+,end_date date
+ constraint meps_history_end_date_nn not null	
+,role_id number(10)
+ constraint meps_history_role_code_nn not null
+ constraint meps_history_role_code_fk
+    references ROLES(role_id)
+,pg_id number(10)
+ constraint meps_history_pg_id_fk 
+    references POLITICAL_GROUPS(pg_id)
+,constraint meps_history_pk 
+ primary key(mep_id,start_date)
+,constraint meps_history_dates_check
+ check(start_date < end_date)
+);
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>The lines below which are part of the
+            <b>SQL CREATE TABLE Statement</b>,
+            define a <b>PRIMARY KEY Constraint</b>
+            named
+            <span class="note-bold-red">MEPS_HISTORY_PK</span>
+            on the two columns of
+            the table <b>MEPS_HISTORY</b>:
+        <ul>
+            <li><b>mep_id</b></li>
+            <li><b>start_date</b></li>
+        </ul>
+        </p>
+
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+,constraint meps_history_pk 
+ primary key(mep_id,start_date)
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+    <div class="note-97">
+
+        <p>This
+            <b>PRIMARY KEY Constraint</b>
+            named <span class="note-bold-red">MEPS_HISTORY_PK</span>
+            on the multiple columns
+            <b>"mep_id"</b> and <b>"start_date"</b>
+            is specified <b>OUT-OF-LINE</b>,
+            as part of the <b>Table Definition</b>.
+        </p>
+
+    </div>
+    <p></p>
+
+
+    <div class="note-117">
+
+        <p>A PRIMARY KEY Constraint on
+            <b>"multiple columns"</b>
+            such as the one just created on the
+            <b>"mep_id"</b> and <b>"start_date"</b> columns,
+            is also called a
+            <b>Composite Primary Key Constraint</b>.
+        </p>
+        <p>A Composite Primary Key Constraint
+            <b>MUST BE</b> defined
+            <b>OUT-OF-LINE</b> as part of the Table Definition.
+        </p>
+        <p> </p>
+    </div>
+    <p></p>
+
+    <h3 id="sql_pk_dd_multi">SQL &#8212; PRIMARY KEY Constraint in DD (Multiple Columns)</h3>
+
+    <div class="note-95">
+
+        <p>We can query this
+            <b>Composite Primary Key Constraint</b> in the
+            <b>Data Dictionary</b> as follows.
+        </p>
+
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+/**********************
+Query the DD Tables 
+USER_CONSTRAINTS and
+USER_CONS_COLUMNS 
+to find out the 
+Primary Key Constraint of the 
+MEPS_HISTORY table.
+Because this is a constraint with 
+multiple columns, we can order the 
+query results by the POSITION column of 
+the USER_CONS_COLUMNS table.
+***********************/
+SELECT UC.OWNER,
+UC.TABLE_NAME,
+UC.CONSTRAINT_TYPE,
+UC.CONSTRAINT_NAME,
+UCC.COLUMN_NAME,
+UCC.POSITION
+FROM USER_CONSTRAINTS UC
+JOIN USER_CONS_COLUMNS UCC
+ON (UCC.CONSTRAINT_NAME=UC.CONSTRAINT_NAME)
+WHERE 1=1
+AND UC.TABLE_NAME='MEPS_HISTORY'
+AND UC.CONSTRAINT_TYPE='P'
+ORDER BY UCC.POSITION
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p> </p>
+        <p> <img src="../images/c4/cons_pk_multi_01.jpg" style="max-width: 100%;" height="auto"
+                alt="Query the PRIMARY KEY in Data Dictionary">
+        </p>
+    </div>
+    <p></p>
+
+
+    <h2 id="sql_fk">SQL &#8212; FOREIGN KEY CONSTRAINT</h2>
+
+    <h3 id="sql_fk_about">FOREIGN KEY Constraint &#8212; About</h3>
+    <div class="note-95">
+
+        <p>A <b>Foreign Key Constraint</b>, which is also called
+            a <b>Referential Integrity Constraint</b>,
+            designates a column as the <b>Foreign Key</b>,
+            and establishes a
+            <span class="note-bold-navy">Relationship</span>
+            <b></b> between that
+            <b>Foreign Key</b> and a specified
+            <span class="note-bold-red">Primary Key</span>
+            or
+            <span class="note-bold-red">Unique Key</span>,
+            called the <span class="note-bold-red">Referenced Key</span>.
+
+        </p>
+
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>A <b>Composite Foreign Key</b> designates
+            a combination of columns as the <b>Foreign Key</b>. </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p>The table containing the <b>Foreign Key</b>
+            is called the <b>CHILD Object</b>.
+        </p>
+        <p>The table containing the
+            <span class="note-bold-red">Referenced Key</span>
+            is called the
+            <span class="note-bold-red">PARENT Object</span>.
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-95">
+
+        <p>The <b>Foreign Key</b> and the
+            <span class="note-bold-red">Referenced Key</span>
+            can be in the <b>SAME Table</b>.
+        </p>
+        <p>In this case, the
+            <span class="note-bold-red">PARENT Table</span>
+            and the <b>CHILD Table</b> are the <b>SAME Table</b>.
+        </p>
+        <p> </p>
+
+
+
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+        <p>If you identify only the
+            <span class="note-bold-red">PARENT Table</span>
+            and omit the <b>Foreign Key Column</b> name,
+            then the <b>Foreign Key</b> automatically
+            <span class="note-bold-navy">References</span>
+            the <span class="note-bold-red">Primary Key of the PARENT Table</span>.
+        </p>
+
+        <p>The corresponding column or columns of the
+            <b>Foreign Key</b> and the
+            <span class="note-bold-red">Referenced Key</span>
+            MUST match <b>"in Order"</b> and <b>"in Data Type"</b>.
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p>You CAN define a <b>Foreign Key Constraint</b>
+            "ON a Single Column", either
+            <span class="note-bold-red">INLINE</span>
+            or <span class="note-bold-red">OUT-OF-LINE</span>.
+        </p>
+        <p>You MUST specify a <b>Composite Foreign Key Constraint</b>
+            <span class="note-bold-red">OUT-OF-LINE</span>.
+        </p>
+        <p> </p>
+    </div>
+    <p></p>
+
+    <h3 id="sql_fk_ref">FOREIGN KEY Constraint &#8212; REFERENCES Clause</h3>
+
+    <div class="note-95">
+
+        <p>Foreign Key Constraints use the
+            <b>REFERENCES Clause</b>.
+        </p>
+        <p>When you specify a Foreign Key Constraint
+            <span class="note-bold-red">INLINE</span>,
+            you ONLY need the <b>REFERENCES Clause</b>.
+        </p>
+        <p>When you specify a Foreign Key Constraint
+            <span class="note-bold-red">OUT-OF-LINE</span>,
+            you <b>MUST</b> ALSO specify the
+            <b>FOREIGN KEY Keyword</b> and one or more columns.
+        </p>
+    </div>
+    <p></p>
+
+    <h4 id="sql_fk_ref_inline">REFERENCES Clause &#8212; INLINE Specification</h4>
+    <div class="note-97">
+
+        <p>Below is an example of an
+            <b>INLINE Specification</b>
+            of a <b>FOREIGN KEY Constraint</b>
+            <span class="note-bold-red">(PG_ID_FK)</span>.
+        </p>
+
+        <div class="note-97-a15">
+            <pre style="font-size:larger ;">
+pg_id NUMBER(10)
+    CONSTRAINT pg_id_fk
+        REFERENCES political_groups(pg_id),
+</pre>
+        </div>
+        <p>Only the <b>REFERENCES Clause</b> is used. </p>
+        <p>Only the <b>REFERENCES Clause</b> is <b>SUFFICIENT</b> enough
+            to define a <b>FOREIGN KEY Constraint</b> in an
+            <b>INLINE Specification</b>.
+        </p>
+        <p>Full SQL Statement of this constraint
+            <span class="note-bold-red">(PG_ID_FK)</span>, can be seen below.
+        </p>
+        <div class="note-97-a15">
+            <pre>
+/* MEPS */
+CREATE TABLE meps (
+    mep_id NUMBER(10)
+        CONSTRAINT mep_id_pk PRIMARY KEY,
+    first_name VARCHAR2(120),
+    last_name VARCHAR2(120)
+        CONSTRAINT last_name_nn NOT NULL,
+    salary NUMBER(9, 2),
+    bonus_pct NUMBER(5, 4),
+    email VARCHAR2(240)
+        CONSTRAINT email_nn NOT NULL
+        CONSTRAINT email_unique UNIQUE,
+    tel VARCHAR2(20),
+    internet VARCHAR2(120),
+    start_date DATE,
+    country_id VARCHAR2(4)
+        CONSTRAINT country_id_fk
+            REFERENCES countries ( country_id ),
+    pg_id NUMBER(10)
+        CONSTRAINT pg_id_fk
+            REFERENCES political_groups ( pg_id ),
+    pg_chair_or_cochair1  NUMBER(10)
+        CONSTRAINT pg_chair_cochair1_fk
+            REFERENCES meps ( mep_id ),
+    pg_cochair2 NUMBER(10)
+        CONSTRAINT pg_cochair2_fk
+            REFERENCES meps ( mep_id )
+);
+</pre>
+        </div>
+
+        <p></p>
+
+        <div class="note-97-a15">
+            <p>SQL Statement above,
+                shows a <b>FOREIGN Key Constraint</b>
+                defined <b>INLINE</b> on the <b>PG_ID</b> column of the <b>MEPS</b> table. </p>
+            <p>The name of this <b>FOREIGN Key Constraint</b> is
+                <span class="note-bold-red">PG_ID_FK</span>.
+            </p>
+            <p>This constraint guarantees that every value in the
+                <b>PG_ID</b> column of the <b>MEPS</b> table,
+                WILL MATCH a value in the
+                <span class="note-bold-red">Primary Key</span> of
+                <span class="note-bold-red">POLITICAL_GROUPS</span> table
+                <span class="note-bold-red">(the PG_ID column)</span>.
+            </p>
+            <p>Therefore, NO INCORRECT VALUES
+                can exist in the <b>PG_ID</b> column of the <b>MEPS</b> table.</p>
+            <p>However, a <b>FOREIGN Key</b> value MAY BE <b>NULL</b>.
+                This means that, <b>PG_ID</b> column of the <b>MEPS</b> table MAY HAVE a <b>NULL</b> value.
+            </p>
+            <p></p>
+        </div>
+        <p></p>
+
+
+        <ul>
+            <li>
+                <span class="note-bold-red">POLITICAL_GROUPS</span> table is the
+                <span class="note-bold-red">PARENT Table</span>
+                or the
+                <span class="note-bold-red">Referenced Table</span>.
+            </li>
+            <li><b>MEPS</b> table is the
+                <b>CHILD Table</b> or the
+                <b>Dependent Table</b>.
+            </li>
+            <li><b>PG_ID</b> column of the <b>MEPS</b> table is the
+                <b>FOREIGN Key</b>.
+            </li>
+            <li><span class="note-bold-red">PG_ID</span> column of the
+                <span class="note-bold-red">POLITICAL_GROUPS</span> table is the
+                <span class="note-bold-red">Referenced Key</span>.
+            </li>
+        </ul>
+
+
+        <div class="note-charcoal-a30">
+
+            <p>A <b>FOREIGN Key</b> value <b>MUST MATCH</b>
+                an <span class="note-bold-red">existing value</span>
+                in the
+                <span class="note-bold-red">PARENT Table</span>, or
+                <b>be NULL</b>.
+            </p>
+        </div>
+
+
+    </div>
+    <p></p>
+
+
+    <h4 id="sql_fk_ref_out">REFERENCES Clause &#8212; OUT-OF-LINE Specification</h4>
+    <div class="note-117">
+
+        <p>Below is an example of an <b>OUT-OF-LINE Specification</b>
+            of a <b>FOREIGN KEY Constraint</b>
+            <span class="note-bold-red">(PG_ID_FK)</span>.
+        </p>
+
+        <p></p>
+        <div class="note-117-a10">
+
+
+            <pre style="font-size:larger ;">
+,CONSTRAINT pg_id_fk FOREIGN KEY (pg_id)
+    REFERENCES political_groups ( pg_id )
+</pre>
+        </div> <span class="note-bold-red"></span>
+        <p><b>"REFERENCES Clause + FOREIGN KEY Keyword"</b> are
+            <span class="note-bold-red">BOTH</span> used.
+        </p>
+        <p><span class="note-bold-red">NOT Only</span> the <b>"REFERENCES Clause"</b>,
+            <span class="note-bold-red">But ALSO</span> the <b>"FOREIGN KEY Keyword"</b>
+            <span class="note-bold-red">MUST BE USED</span> in an <b>OUT-OF-LINE Specification</b>.
+        </p>
+        <p></p>
+        <p>Full SQL Statement of this constraint <span class="note-bold-red">(PG_ID_FK)</span>,
+            can be seen below.
+        </p>
+        <div class="note-117-a10">
+            <pre>
+/* MEPS */
+CREATE TABLE meps (
+    mep_id NUMBER(10)
+        CONSTRAINT mep_id_pk PRIMARY KEY,
+    first_name VARCHAR2(120),
+    last_name VARCHAR2(120)
+        CONSTRAINT last_name_nn NOT NULL,
+    salary NUMBER(9, 2),
+    bonus_pct NUMBER(5, 4),
+    email VARCHAR2(240)
+        CONSTRAINT email_nn NOT NULL
+        CONSTRAINT email_unique UNIQUE,
+    tel VARCHAR2(20),
+    internet VARCHAR2(120),
+    start_date DATE,
+    country_id VARCHAR2(4)
+        CONSTRAINT country_id_fk
+            REFERENCES countries ( country_id ),
+    pg_id NUMBER(10),
+    pg_chair_or_cochair1  NUMBER(10)
+        CONSTRAINT pg_chair_cochair1_fk
+            REFERENCES meps ( mep_id ),
+    pg_cochair2 NUMBER(10)
+        CONSTRAINT pg_cochair2_fk
+            REFERENCES meps ( mep_id )
+    ,CONSTRAINT pg_id_fk FOREIGN KEY (pg_id)
+        REFERENCES political_groups ( pg_id )
+    );
+</pre>
+        </div>
+        <p></p>
+        <div class="note-117-a10">
+            <p>SQL Statement above,
+                shows a <b>FOREIGN Key Constraint</b>
+                defined <b>OUT-OF-LINE</b>
+                on the <b>PG_ID</b> column of the <b>MEPS</b> table. </p>
+            <p>The name of this <b>FOREIGN Key Constraint</b> is
+                <span class="note-bold-red">PG_ID_FK</span>.
+            </p>
+            <p>This constraint guarantees that every value in the
+                <b>PG_ID</b> column of the <b>MEPS</b> table,
+                WILL MATCH a value in the
+                <span class="note-bold-red">Primary Key</span> of
+                <span class="note-bold-red">POLITICAL_GROUPS</span> table
+                <span class="note-bold-red">(the PG_ID column)</span>.
+            </p>
+            <p>Therefore, NO INCORRECT VALUES
+                can exist in the <b>PG_ID</b> column of the <b>MEPS</b> table.</p>
+            <p>However, a <b>FOREIGN Key</b> value MAY BE <b>NULL</b>.
+                This means that, <b>PG_ID</b> column of the <b>MEPS</b>
+                table MAY HAVE <b>NULL</b> values.
+            </p>
+            <p></p>
+
+        </div>
+        <p></p>
+
+
+        <ul>
+            <li>
+                <span class="note-bold-red">POLITICAL_GROUPS</span> table is the
+                <span class="note-bold-red">PARENT Table</span>
+                or the
+                <span class="note-bold-red">Referenced Table</span>.
+            </li>
+            <li><b>MEPS</b> table is the
+                <b>CHILD Table</b> or the
+                <b>Dependent Table</b>.
+            </li>
+            <li><b>PG_ID</b> column of the <b>MEPS</b> table is the
+                <b>FOREIGN Key</b>.
+            </li>
+            <li><span class="note-bold-red">PG_ID</span> column of the
+                <span class="note-bold-red">POLITICAL_GROUPS</span> table is the
+                <span class="note-bold-red">Referenced Key</span>.
+            </li>
+        </ul>
+
+        <div class="note-charcoal-a30">
+
+            <p>A <b>FOREIGN Key</b> value <b>MUST MATCH</b>
+                an <span class="note-bold-red">existing value</span>
+                in the
+                <span class="note-bold-red">PARENT Table</span>, or
+                <b>be NULL</b>.
+            </p>
+        </div>
+
+
+
+    </div>
+    <p></p>
+
+    <h3 id="sql_fk_del">FOREIGN KEY Constraint &#8212; ON DELETE Clause</h3>
+
+    <div>
+
+        <p>The <b>ON DELETE Clause</b>
+            of a FOREIGN KEY Constraint definition lets you determine
+            how Oracle Database
+            automatically maintains <b>Referential Integrity</b>, IF
+            you remove a
+            <span class="note-bold-red">Referenced Primary Key</span> value
+            or a
+            <span class="note-bold-red">Referenced Unique Key</span> value.
+        </p>
+
+    </div>
+    <p></p>
+
+    <h4 id="sql_fk_del_default">ON DELETE Clause &#8212; Default Behaviour</h4>
+
+    <div class="note-95">
+        <p>If you OMIT the <b>ON DELETE Clause</b>, then
+            <b>Default Behaviour</b> takes action.
+        </p>
+        <p>If you OMIT the <b>ON DELETE Clause</b>, and
+            <b>Default Behaviour</b> takes place, then
+            Oracle <b>DOES NOT ALLOW you to DELETE</b>
+            <span class="note-bold-red">Referenced Key</span> values in the
+            <span class="note-bold-red">PARENT Table</span>
+            that have
+            <b>Dependent Rows</b> in the <b>CHILD Table</b>.
+        </p>
+
+        <p>Let's assume that the <b>FOREIGN Key Constraint</b>
+            <span class="note-bold-red">(PG_ID_FK)</span> is created
+            using the SQL Statement below:
+        </p>
+        <pre>
+/* MEPS */
+CREATE TABLE meps (
+    mep_id NUMBER(10)
+        CONSTRAINT mep_id_pk PRIMARY KEY,
+    first_name VARCHAR2(120),
+    last_name VARCHAR2(120)
+        CONSTRAINT last_name_nn NOT NULL,
+    salary NUMBER(9, 2),
+    bonus_pct NUMBER(5, 4),
+    email VARCHAR2(240)
+        CONSTRAINT email_nn NOT NULL
+        CONSTRAINT email_unique UNIQUE,
+    tel VARCHAR2(20),
+    internet VARCHAR2(120),
+    start_date DATE,
+    country_id VARCHAR2(4)
+        CONSTRAINT country_id_fk
+            REFERENCES countries ( country_id ),
+    pg_id NUMBER(10)
+        CONSTRAINT pg_id_fk
+            REFERENCES political_groups ( pg_id ),
+    pg_chair_or_cochair1  NUMBER(10)
+        CONSTRAINT pg_chair_cochair1_fk
+            REFERENCES meps ( mep_id ),
+    pg_cochair2 NUMBER(10)
+        CONSTRAINT pg_cochair2_fk
+            REFERENCES meps ( mep_id )
+    );
+    </pre>
+        <p>These are the lines where the constraint
+            <span class="note-bold-red">(PG_ID_FK)</span> is created:
+        </p>
+        <div class="note-95-a15">
+            <pre style="font-size:larger ;">
+pg_id NUMBER(10)
+    CONSTRAINT pg_id_fk
+        REFERENCES political_groups(pg_id),
+</pre>
+        </div>
+
+        <p>As we can see the <b>ON DELETE Clause</b> is OMITTED.</p>
+        <p>There is NO <b>ON DELETE Clause</b>.</p>
+        <p>Therefore, <b>Default Behaviour</b> will take action. </p>
+        <p>If we want to remove/delete a row from the
+            <span class="note-bold-red">PARENT Table</span> which is
+            the <span class="note-bold-red">POLITICAL_GROUPS</span> table,
+            with a specific <span class="note-bold-red">PG_ID</span> value that
+            has <b>CHILD Rows</b> in the <b>CHILD Table</b> which
+            is the <b>MEPS</b> table,
+            then Oracle <b>WILL NOT ALLOW</b> this happen.
+        </p>
+    </div>
+    <p></p>
+
+
+
+    <div class="note-charcoal-a30">
+        <p>The query below gives us the
+            Political Groups, and the number of the Member of the Parliaments
+            in each Political Group. </p>
+        <pre style="font-size:larger ;">
+    SELECT PG_ID, COUNT(*) MEP_TOTAL
+    FROM MEPS
+    GROUP BY PG_ID
+    ORDER BY MEP_TOTAL DESC
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>Here is the output in SQL Developer. </p>
+        <p id="pg_id_20_01"> <img src="../images/c4/on_delete_01.jpg" style="max-width: 100%;" height="auto"
+                alt="Number of MEPS in Political Groups">
+        </p>
+    </div>
+    <p></p>
+    <div class="note-97">
+
+        <p>If now we try to delete
+            <span class="note-bold-red">the row with the PG_ID value of 20</span>
+            in the <span class="note-bold-red">PARENT Table</span>,
+            which is the <span class="note-bold-red">POLITICAL_GROUPS</span>,
+            Oracle will throw an ERROR.
+        </p>
+        <p>This is because, there are <b>288 CHILD Rows</b> in the
+            <b>MEPS</b> table with a <b>PG_ID value of 20</b>.
+        <p>We can see the SQL Statement and the resulting error below.</p>
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+DELETE FROM POLITICAL_GROUPS 
+WHERE PG_ID=20       
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+Error starting at line : 1 in command -
+DELETE FROM POLITICAL_GROUPS 
+WHERE PG_ID=20
+Error report -
+ORA-02292: integrity constraint (KAYE.PG_ID_FK) violated - child record found                
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+
+
+    <div class="note-117">
+
+        <p> </p>
+        <p> <img src="../images/c4/on_delete_02.jpg" style="max-width: 100%;" height="auto"
+                alt="CANNOT DELETE from Political Groups because of the Foreign Key Constraint.">
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-95">
+
+        <p>This is the <b>ON DELETE Clause</b>
+            <b>Default Behaviour</b> in action when
+            the <b>ON DELETE Clause</b> is <b>OMITTED</b>.
+        </p>
+
+    </div>
+    <p></p>
+
+    <div>
+
+        <p>
+        <figure>
+
+            <img style="max-width: 100%; height: auto;" src="../images/c4/ep-brussels-02.jpg" alt="European Parliament in Brussels">
+            <figcaption style="text-align: center;">
+                European Parliament in Brussels</figcaption>
+        </figure>
+        </p>
+    </div>
+    <p></p>
+
+    <h4 id="sql_fk_del_casc">ON DELETE Clause &#8212; CASCADE</h4>
+
+    <div class="note-95">
+
+        <p>Specify <b>CASCADE</b> if you want Oracle to remove
+            <b>DEPENDENT FOREIGN Key Rows</b> automatically/implicitly.
+        </p>
+
+        <p><b>ON DELETE CASCADE</b> causes the
+            <b>DEPENDENT Rows in the CHILD Table</b>
+            to be deleted automatically/implicitly by Oracle,
+            when a row in the <span class="note-bold-red">PARENT Table</span>
+            is deleted.
+        </p>
+        <p>In our example, the <b>FOREIGN KEY Constraint</b>
+            is <span class="note-bold-red">"PG_ID_FK"</span>: </p>
+        <ul>
+            <li>The <span class="note-bold-red">PARENT Table</span>
+                is <span class="note-bold-red">POLITICAL_GROUPS</span>.</li>
+            <li>The <b>CHILD Table</b> or the
+                <b>DEPENDENT Table</b> is <b>MEPS</b>.
+            </li>
+        </ul>
+
+
+        <div class="note-95-a15">
+            <pre style="font-size: larger;">
+SELECT * 
+FROM POLITICAL_GROUPS
+ORDER BY PG_ID    
+</pre>
+        </div>
+        <p>The query above retrieves all the rows
+            in the <span class="note-bold-red">PARENT Table</span>
+            which is <span class="note-bold-red">POLITICAL_GROUPS</span>. </p>
+
+
+        <div class="note-95-a15">
+
+            <p>
+            <figure>
+
+                <img style="max-width: 100%; height: auto;" src="../images/c4/fk_on_del_cascade_01.jpg"
+                    alt="POLITICAL_GROUPS in SQL Developer">
+                <figcaption style="text-align: center;">
+                    POLITICAL_GROUPS in SQL Developer</figcaption>
+            </figure>
+            </p>
+        </div>
+        <p>Let's focus on the
+            row with <b>PG_ID=20</b>. </p>
+        <p>This is the political group
+            named <b>'Group of the European People's Party(Christian Democrats) and European Democrats'</b>
+            with the <b>PG_CODE='EPP-ED'</b>. </p>
+        <p>
+        <figure>
+
+            <img style="max-width: 100%; height: auto;" src="../images/c4/fk_on_del_cascade_03.jpg"
+                alt="POLITICAL_GROUPS in SQL Developer">
+        </figure>
+        </p>
+        <p>We already know from <a href="#pg_id_20_01">a previous query</a>
+            that there are 288 Members of the Parliament
+            belonging to this Political Group. </p>
+        <p>This information is held in the
+            <b>CHILD Table</b> or the
+            <b>DEPENDENT Table</b> &#8212; <b>MEPS</b>.
+        </p>
+        <p>Below is a query to retrive all the
+            Members of the Parliament belonging to
+            the Political Group <b>'EPP-ED' (PG_ID=20)</b>.
+            Only some of the columns are selected. </p>
+        <p> </p>
+
+        <div class="note-95-a15">
+            <pre style="font-size:larger ;">
+SELECT M.MEP_ID,
+M.PG_ID,
+M.FIRST_NAME,
+M.LAST_NAME,
+M.COUNTRY_ID,
+M.INTERNET
+FROM MEPS M
+WHERE 1=1
+AND M.PG_ID=20
+ORDER BY M.MEP_ID
+</pre>
+        </div>
+
+        <p>and here is the result in SQL Developer:</p>
+        <p>
+        <figure>
+
+            <img style="max-width: 100%; height: auto;" src="../images/c4/fk_on_del_cascade_04.jpg"
+                alt="MEPS of PG_ID=20 in SQL Developer">
+        </figure>
+        </p>
+
+
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>If we specify
+            the <b>ON DELETE CASCADE</b> Clause
+            when defining the <b>FOREIGN KEY</b>
+            <span class="note-bold-red">"PG_ID_FK"</span>,
+            and at some stage, we DELETE
+            <span class="note-bold-red">the row with PG_ID=20</span>
+            from the
+            <span class="note-bold-red">PARENT Table</span>
+            <span class="note-bold-red">POLITICAL_GROUPS</span>,
+            then all of the
+            <b>288 DEPENDENT rows</b> in the <b>CHILD Table</b> <b>MEPS</b>,
+            with <b>PG_ID=20</b> will be automatically/implicitly DELETED
+            by Oracle.
+        </p>
+        <p>Below is the Constraint Definition
+            <b>with the ON DELETE CASCADE Clause</b>
+            within the <b>CHILD Table MEPS</b>:
+        </p>
+        <div class="note-97-a15">
+            <pre style="font-size:larger ;">
+pg_id NUMBER(10)
+    CONSTRAINT pg_id_fk
+        REFERENCES political_groups(pg_id)
+        ON DELETE CASCADE,
+</pre>
+        </div>
+
+
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p>This is how <b>ON DELETE CASCADE</b> works. </p>
+
+    </div>
+    <p></p>
+
+    <h4 id="sql_fk_del_null">ON DELETE Clause &#8212; SET NULL</h4>
+
+
+
+    <div class="note-95">
+
+        <p> <b>ON DELETE SET NULL</b> works similar to
+            <a href="#sql_fk_del_casc"><b>ON DELETE CASCADE</b></a>.
+        </p>
+        <p>Only, instead of removing the
+            <b>DEPENDENT FOREIGN Key Rows</b> automatically/implicitly,
+            Oracle converts the <b>DEPENDENT FOREIGN Key Values</b> to
+            <span class="note-bold-red">NULL</span> automatically/implicitly,
+            when a row in the <span class="note-bold-red">PARENT Table</span>
+            is deleted.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>Let's take the same example in the
+            <a href="#sql_fk_del_casc">ON DELETE CASCADE</a> section.
+        </p>
+        <p>If we specify
+            the <b>ON DELETE SET NULL</b> Clause
+            when defining the <b>FOREIGN KEY</b>
+            <span class="note-bold-red">"PG_ID_FK"</span>,
+            and at some stage, we DELETE
+            <span class="note-bold-red">the row with PG_ID=20</span>
+            from the
+            <span class="note-bold-red">PARENT Table</span>
+            <span class="note-bold-red">POLITICAL_GROUPS</span>,
+            then Oracle will automatically/implicitly convert
+            the <b>PG_ID</b> values
+            of all the <b>288 DEPENDENT rows</b>
+            in the <b>CHILD Table</b> <b>MEPS</b>,
+            from <b>20</b> to <b>NULL</b>.
+        </p>
+
+        <p>
+        <figure>
+
+            <img style="max-width: 100%; height: auto;" src="../images/c4/fk_on_del_cascade_05.jpg"
+                alt="Set the values PG_ID=20 to NULLS in the MEPS table. ">
+        </figure>
+        </p>
+
+
+        <p>Below is the Constraint Definition
+            <b>with the ON DELETE SET NULL Clause</b>
+            within the <b>CHILD Table MEPS</b>:
+        </p>
+        <div class="note-97-a15">
+            <pre style="font-size:larger ;">
+pg_id NUMBER(10)
+    CONSTRAINT pg_id_fk
+    REFERENCES political_groups(pg_id)
+    ON DELETE SET NULL,
+</pre>
+            <p></p>
+            <p></p>
+            <p></p>
+        </div>
+        <p></p>
+    </div>
+    <p></p>
+    <div class="note-117">
+
+        <p>This is how <b>ON DELETE SET NULL</b> works. </p>
+
+    </div>
+    <p></p>
+
+    <h3 id="sql_fk_dd_1">FOREIGN KEY Constraint &#8212; Data Dictionary Query 1</h3>
+    <div class="note-95">
+
+        <p>We can query a <b>FOREIGN KEY Constraint</b> in the
+            Data Dictionary.
+        </p>
+        <p>For <b>FOREIGN KEY Constraints</b>,
+            Constraint Type <b>'R'</b> is used. </p>
+        <p> <b>'R'</b> stands for <b>Referential Integrity</b>. </p>
+    </div>
+    <p></p>
+
+    <p>Table <b>MEPS</b> is created using the
+        SQL Statement below. </p>
+
+    <div class="note-charcoal-a30">
+        <p> </p>
+        <pre style="font-size:larger ;">
+/* MEPS */
+CREATE TABLE meps (
+mep_id NUMBER(10)
+    CONSTRAINT mep_id_pk PRIMARY KEY,
+first_name VARCHAR2(120),
+last_name VARCHAR2(120)
+    CONSTRAINT last_name_nn NOT NULL,
+salary NUMBER(9, 2),
+bonus_pct NUMBER(5, 4),
+email VARCHAR2(240)
+    CONSTRAINT email_nn NOT NULL
+    CONSTRAINT email_unique UNIQUE,
+tel VARCHAR2(20),
+internet VARCHAR2(120),
+start_date DATE,
+country_id VARCHAR2(4)
+    CONSTRAINT country_id_fk
+        REFERENCES countries ( country_id ),
+pg_id NUMBER(10)
+    CONSTRAINT pg_id_fk
+        REFERENCES political_groups ( pg_id ),
+pg_chair_or_cochair1 NUMBER(10)
+    CONSTRAINT pg_chair_cochair1_fk
+        REFERENCES meps ( mep_id ),
+pg_cochair2 NUMBER(10)
+    CONSTRAINT pg_cochair2_fk
+        REFERENCES meps ( mep_id )
+);
+</pre>
+
+    </div>
+    <p></p>
+
+    <div class="note-95">
+        <p>We will now query the DD&#8212;Data Dictionary for all the
+            <b>FOREIGN Key Constraints</b> of the <b>MEPS</b> table.
+        </p>
+        <p> </p>
+
+    </div>
+    <p></p>
+    <div class="note-charcoal-a30">
+        <p> </p>
+        <pre style="font-size:larger ;">
+/************************************
+Query the DD Tables 
+USER_CONSTRAINTS and 
+USER_CONS_COLUMNS to retrieve 
+the Foreign Key Constraints of the 
+MEPS table.
+**************************************/
+SELECT UC.OWNER,
+UC.TABLE_NAME,
+UC.CONSTRAINT_TYPE,
+UC.CONSTRAINT_NAME,
+UCC.COLUMN_NAME
+FROM USER_CONSTRAINTS UC
+JOIN USER_CONS_COLUMNS UCC
+ON (UCC.CONSTRAINT_NAME=UC.CONSTRAINT_NAME)
+WHERE 1=1
+AND UC.TABLE_NAME='MEPS'
+AND UC.CONSTRAINT_TYPE='R'
+ORDER BY UC.CONSTRAINT_NAME
+</pre>
+
+    </div>
+    <p></p>
+    <p> <img src="../images/c4/cons_fk_dd_01.jpg" style="max-width: 100%;" height="auto"
+            alt="Query the FOREIGN KEY in Data Dictionary">
+    </p>
+
+    <div class="note-95">
+
+        <p>The SQL query above retrieves all the
+            <b>FOREIGN KEY / REFERENTIAL INTEGRITY</b> Constraints
+            of the <b>MEPS</b> table.
+        </p>
+        <p>However, it only displays; the "Names of the Constraints "and the
+            "Foreign Key Columns".
+        </p>
+        <p>It DOES NOT give any information on the
+            <span class="note-bold-red">PARENT Table</span>,
+            and the
+            <span class="note-bold-red">REFERENCED KEY</span> of the PARENT Table.
+        </p>
+        <p>We need another SQL query to find this information,
+            which is in the <a href="#sql_fk_dd_2">next section</a>.
+        </p>
+    </div>
+    <p></p>
+
+    <h3 id="sql_fk_dd_2">FOREIGN KEY Constraint &#8212; Data Dictionary Query 2</h3>
+    <div class="note-95">
+
+        <p>The query below retrieves almost everything we would like to
+            know about a <b>Foreign Key</b>; </p>
+        <ul>
+            <li><b>Name of the Child Table</b> ("Child Table") </li>
+            <li><b>Type of the Constraint</b> ("Child Constraint Type") </li>
+            <li><b>Name of the Foreign Key Constraint</b> ("Child Constraint Name") </li>
+            <li><b>Name of the Foreign Key Column</b> ("Foreign Key") </li>
+            <li><b>Name of the Parent Table</b> ("Parent Table") </li>
+            <li><b>Type of the Referenced Key Constraint</b> ("Parent Constraint Type") </li>
+            <li><b>Name of the Referenced Key Constraint</b> ("Parent Constraint Name") </li>
+            <li><b>Name of the Referenced Key Column </b>("Referenced Key") </li>
+        </ul>
+
+
+
+    </div>
+    <p></p>
+
+
+
+
+    <div class="note-charcoal-a30">
+        <p></p>
+        <pre style="font-size:larger ;">
+/************************************
+Query the DD Tables 
+USER_CONSTRAINTS and 
+USER_CONS_COLUMNS to retrieve 
+the Foreign Key Constraints 
+as well as the Parent Table information 
+for the Foreign Keys of the MEPS table.
+**************************************/
+SELECT child_table.table_name "Child Table",
+child_table.constraint_type "Child Constraint Type",
+child_table.constraint_name "Child Constraint Name",
+child_column.column_name "Foreign Key",
+parent_table.table_name "Parent Table",
+parent_table.constraint_type "Parent Constraint Type",
+child_table.r_constraint_name "Parent Constraint Name",
+parent_column.column_name "Referenced Key"
+FROM user_constraints child_table
+JOIN user_constraints parent_table 
+ON ( parent_table.constraint_name = child_table.r_constraint_name )
+JOIN user_cons_columns child_column 
+ON ( child_column.constraint_name = child_table.constraint_name )
+JOIN user_cons_columns parent_column 
+ON ( parent_column.constraint_name = parent_table.constraint_name )
+WHERE 1 = 1
+AND child_table.table_name = 'MEPS'
+AND child_table.constraint_type = 'R'
+</div>
+<p></p>
+
+
+<div class="note-95">
+
+    <p> </p>
+    <p>This query uses the two Data Dictionary tables; </p>
+    <ul>
+        <li>USER_CONSTRAINTS</li>
+        <li>USER_CONS_COLUMNS </li>
+    </ul>
+</div>
+<p></p>
+
+
+<p> <img src="../images/c4/cons_fk_dd_02.jpg" style="max-width: 100%;" height="auto"
+    alt="Query the FOREIGN KEY in Data Dictionary">
+</p>
+<p></p>
+<p>Here is the result in SQL Developer.</p>
+<p> <img src="../images/c4/cons_fk_dd_03.jpg" style="max-width: 100%;" height="auto"
+    alt="Query the FOREIGN KEY in Data Dictionary">
+</p>
+</div>
+
+
+        <div class="note-95">
+
+            <p>This sums up querying
+               <b>Foreign Keys</b> in the 
+            <b>Data Dictionary</b>. </p>
+
+        </div>
+        <p></p>
+
+
+        <h2 id="sql_check">SQL &#8212; CHECK CONSTRAINT</h2>
+
+        <h3 id="sql_check_about">CHECK Constraint &#8212; About</h3>
+<span class="note-bold-red"></span>
+        <div class="note-95">
+
+ <p>A <b>CHECK Constraint</b> specifies 
+a <span class="note-bold-red">CONDITION</span> 
+that <b>each row</b> in the table <b>MUST Satisfy</b>.
+</p>
+ <p>To <b>Satisfy</b> the <b>CHECK Constraint</b>,
+    <b>each row</b> in the table <b>MUST</b>
+    make the    
+<span class="note-bold-red">CONDITION</span>;
+<ul>
+    <li>either <b>TRUE</b></li>
+    <li>or <b>UNKNOWN</b>(due to a <b>NULL</b>)</li>
+</ul>
+
+</p>
+</div>
+        <p></p>
+<div class="note-97">
+
+<p>When Oracle evaluates a 
+                <b>CHECK Constraint</b>
+                <span class="note-bold-red">CONDITION</span>
+                for a particular row, 
+any "Column Names" in the <span class="note-bold-red">CONDITION</span>
+"REFER to the Column Values in that row."              
+</p>
+           
+        </div>
+        <p></p>
+
+        <div class="note-117">
+
+            <p>The syntax for 
+                <b>INLINE</b> and <b>OUT-OF-LINE</b> specification 
+            of <b>CHECK Constraints</b> are the same. </p>
+            <p>However, <b>INLINE</b> specification can REFER 
+                only  to the "Column currently being defined",
+                whereas <b>OUT-OF-LINE</b> specification can REFER 
+                to "Multiple Columns".
+              </p>
+       
+        </div>
+        <p></p>
+
+<h3 id="sql_check_ex_1">SQL &#8212;CHECK Constraint Example 1 </h3>
+
+
+<p>Below is the SQL Statement which creates the table 
+        <b>POLITICAL_GROUPS</b>.
+    </p>
+<div class="note-charcoal-a30">
+<pre style="font-size:larger ;">
+create table POLITICAL_GROUPS
+(pg_id number(10)
+    constraint pg_id_pk primary key
+,pg_code varchar2(30)
+    constraint pg_code_nn not null
+    constraint pg_code_unique unique
+,pg_name varchar2(120)
+,address varchar2(240)
+,postal_code varchar2(15)
+,city varchar2(60)
+    constraint pg_city_nn not null
+,tel varchar2(20)
+,email varchar2(240)
+,internet varchar2(120)
+,about clob
+,institute_id number(10)
+    constraint pg_institute_id_fk 
+    references EU_INSTITUTES(institute_id)
+);
+    
+</pre>
+        <p> </p>
+    </div>
+    <p>As we can see, there is a <b>NOT NULL</b>
+        and a <b>UNIQUE</b> constraint on the column <b>PG_CODE</b>: </p>
+    <p> </p>
+    <div class="note-charcoal-a30-large">
+        <pre style="font-size:larger ;">
+,pg_code varchar2(30)
+    constraint pg_code_nn not null
+    constraint pg_code_unique unique    
+</pre>
+        <p> </p>
+    </div>
+    <p></p>
+    <div class="note-95">
+
+        <p>Let's assume that we want to restrict the values input to the
+            column <b>PG_CODE</b>, with the following values:
+        </p>
+        <ul>
+            <li>'EPP-ED'</li>
+            <li> 'PES'</li>
+            <li>'Greens/EFA'</li>
+            <li>'GUE/NGL'</li>
+            <li>'IND/DEM'</li>
+            <li>'ALDE'</li>
+            <li>'UEN'</li>
+            <li>'NI' for "non-attached Members — non-inscrits (NI)"</li>
+        </ul>
+
+
+        <p>In this case, we can define a <b>CHECK Constraint</b>
+            on the column <b>PG_CODE</b> as follows: </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30-large">
+        <pre style="font-size:larger ;">
+,pg_code varchar2(30)
+    constraint check_pg_code CHECK
+    (pg_code IN ('EPP-ED', 
+    'PES',
+    'Greens/EFA',
+    'GUE/NGL',
+    'IND/DEM',
+    'ALDE',
+    'UEN',
+    'NI') )    
+</pre>
+        <p> </p>
+    </div>
+    <p></p>
+
+
+
+    <p></p>
+    <p></p>
+    <div class="note-97">
+        <ul>
+            <li>
+                <p>A <b>CHECK Constraint</b> is defined
+                    on the column <b>PG_CODE</b>.</p>
+            </li>
+            <li>
+                <p>The name of this <b>CHECK Constraint</b> is
+                    <b>CHECK_PG_CODE</b>.
+                </p>
+            </li>
+            <li>
+                <p>The <span class="note-bold-red">CHECK Condition</span>
+                <div class="note-97-a15">
+                    <pre style="font-size:larger ;">
+(pg_code IN ('EPP-ED', 
+'PES',
+'Greens/EFA',
+'GUE/NGL',
+'IND/DEM',
+'ALDE',
+'UEN',
+'NI'))    
+</pre>
+                </div>
+                ensures that the value of the <b>PG_CODE</b> column can only be
+                'EPP-ED',
+                'PES',
+                'Greens/EFA',
+                'GUE/NGL',
+                'IND/DEM',
+                'ALDE',
+                'UEN' or
+                'NI'.
+                </p>
+            </li>
+            <li>
+                <p>No rows with other values in this column will be allowed into the database. </p>
+            </li>
+            <p></p>
+        </ul>
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p> However, this <b>CHECK Constraint</b> allows <b>NULL</b> values in the column
+            <b>PG_CODE</b>.
+        </p>
+        <p>This is because, if the input value is <b>NULL</b>, then the expression
+
+        <div class="note-117-a10">
+            <pre style="font-size:larger ;">
+(pg_code IN ('EPP-ED', 
+'PES',
+'Greens/EFA',
+'GUE/NGL',
+'IND/DEM',
+'ALDE',
+'UEN',
+'NI'))    
+</pre>
+        </div>
+        </p>
+        evaluates to <b>NULL</b>. <p></p>
+        <p></p>
+    </div>
+    <p></p>
+
+
+    <h3 id="sql_check_ex_2">SQL &#8212;CHECK Constraint Example 2 </h3>
+
+    <div class="note-95">
+
+        <p>Here is another <b>CHECK Constraint</b> example. </p>
+        <p>This <b>CHECK Constraint</b> example is on the table
+            <b>MEPS_HISTORY</b>.
+        </p>
+        <p>Below is the <b>SQL CREATE TABLE</b> Statement for the table <b>MEPS_HISTORY</b>. </p>
+        <p> </p>
+    </div>
+    <p></p>
+
+    <p></p>
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+create table MEPS_HISTORY
+(mep_id	number(10)
+    constraint meps_history_mep_id_nn not null
+    constraint meps_history_mep_id_fk
+        references MEPS(mep_id)
+,start_date	date
+    constraint meps_history_start_date_nn not null
+,end_date date
+    constraint meps_history_end_date_nn not null	
+,role_id number(10)
+    constraint meps_history_role_code_nn not null
+    constraint meps_history_role_code_fk
+        references ROLES(role_id)
+,pg_id number(10)
+    constraint meps_history_pg_id_fk 
+        references POLITICAL_GROUPS(pg_id)
+,constraint meps_history_pk 
+    primary key(mep_id,start_date)
+,constraint meps_history_dates_check
+    check(start_date < end_date)
+);
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <p></p>
+
+    <div class="note-97">
+
+        <p>The lines below </p>
+        <div class="note-charcoal-a30-large">
+            <pre style="font-size:larger ;">
+,constraint meps_history_dates_check
+check(start_date < end_date)
+</pre>
+        </div>
+        <p>which are part of the <b>SQL CREATE TABLE Statement</b>,
+            define a <b>CHECK Constraint</b>
+            named <span class="note-bold-red">MEPS_HISTORY_DATES_CHECK</span>
+            on the two columns of the table <b>MEPS_HISTORY</b>: </p>
+        <ul>
+            <li><b>start_date</b></li>
+            <li><b>end_date</b></li>
+        </ul>
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>The <b>CHECK Constraint</b> named <span class="note-bold-red">MEPS_HISTORY_DATES_CHECK</span>
+            ensures that
+            the value in the <b>"start_date"</b> column
+            is always <b>LESS THAN (&#60;)</b> the value in the <b>"end_date"</b> column, within a row.
+        </p>
+
+    </div>
+    <p></p>
+
+    <div class="note-97">
+
+        <p>
+        <p>This
+            <b>CHECK Constraint</b>
+            named <span class="note-bold-red">MEPS_HISTORY_DATES_CHECK</span>
+            on the multiple columns
+            <b>"start_date"</b> and <b>"end_date"</b>
+            is specified <b>OUT-OF-LINE</b>,
+            as part of the <b>Table Definition</b>.
+        </p>
+        </p>
+
+    </div>
+    <p></p>
+
+
+
+    <h3 id="sql_check_dd">SQL &#8212;CHECK Constraint in Data Dictionary</h3>
+
+    <p></p>
+
+    <div class="note-95">
+
+        <p>The SQL Statement below, queries the constraints
+            of the <b>MEPS_HISTORY</b> table with
+            <b>CONSTRAINT_TYPE='C'</b>.
+        </p>
+        <p>The query is on the Data Dictionary tables,
+            <b>USER_CONSTRAINTS</b> and
+            <b>USER_CONS_COLUMNS</b>.
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-charcoal-a30">
+        <pre style="font-size:larger ;">
+SELECT UC.OWNER,
+UC.TABLE_NAME,
+UC.CONSTRAINT_TYPE,
+UC.CONSTRAINT_NAME,
+UCC.COLUMN_NAME,
+UC.SEARCH_CONDITION
+FROM USER_CONSTRAINTS UC
+JOIN USER_CONS_COLUMNS UCC
+ON (UCC.CONSTRAINT_NAME=UC.CONSTRAINT_NAME)
+WHERE 1=1
+AND UC.TABLE_NAME='MEPS_HISTORY'
+AND UC.CONSTRAINT_TYPE='C'
+ORDER BY UC.CONSTRAINT_NAME, UCC.COLUMN_NAME
+</pre>
+        <p> </p>
+
+    </div>
+    <p></p>
+
+
+    <div class="note-97">
+        <p>Here is the result of the query in SQL Developer. </p>
+        <p> </p>
+        <p> <img src="../images/c4/cons_check_dd_01.jpg" style="max-width: 100%;" height="auto"
+                alt="Query the CHECK Constraint in Data Dictionary">
+        </p>
+    </div>
+    <p></p>
+
+    <div class="note-117">
+
+        <p><b>CONSTRAINT_TYPE</b> column of the
+            <b>USER_CONSTRAINTS</b> table, tells us the <b>"type"</b> of the constraint.
+            <b></b>
+            <b></b>
+        </p>
+        <p> <b>CONSTRAINT_TYPE='C'</b> tells us that the <b>Constraint</b> is:
+        <ul>
+            either <b>
+                <li>a CHECK Constraint</li>
+            </b>
+            or <b>
+                <li>a NOT NULL Constraint</li>
+            </b>
+        </ul>
+        <b></b></p>
+        <p> The <b>SEARCH_CONDITION</b> column of the
+            <b>USER_CONSTRAINTS</b> table makes it clear whether
+            the <b>Constraint</b> is a <b>"NOT NULL Constraint"</b> or not.
+        </p>
+        <p>If it says <b>"COLUMN_NAME" IS NOT NULL</b> in the
+            <b>SEARCH_CONDITION</b> column, then this is a <b>"NOT NULL Constraint"</b>,
+            else a <b>"CHECK Constraint"</b>.
+        </p>
+        <p><img src="../images/c4/cons_check_nn_dd_01.jpg" style="max-width: 100%;" height="auto"
+                alt="NOT NULL Constraints in Data Dictionary"></p>
+        <p>Constraints marked with a rectangle are <b>"NOT NULL Constraints"</b>. </p>
+        <b></b>
+        <b></b>
+    </div>
+    <p></p>
+
+    <div class="note-95">
+
+        <p>Here are the result rows of the query
+            displaying the <b>CHECK Constraint</b>
+            <span class="note-bold-red">"MEPS_HISTORY_DATES_CHECK"</span>.
+        </p>
+        <p> <img src="../images/c4/cons_check_dd_02.jpg" style="max-width: 100%;" height="auto"
+                alt="Query the CHECK Constraint in Data Dictionary">
+        </p>
+        <p>The
+            <b>SEARCH_CONDITION</b> column
+            is the same as the
+            <b>CHECK Condition</b> we defined in the SQL CREATE TABLE Statement
+            of the <b>MEPS_HISTORY</b>:
+        </p>
+        <div class="note-charcoal-a30-large">
+            <pre style="font-size:larger ;">
+,constraint meps_history_dates_check
+check(start_date < end_date)
+</pre>
+        </div>
+        <p></p>
+    </div>
+    <p></p>
+
+    <div class="note-97">
+        <p> ... and now, a breath of fresh air.</p>
+        <img src="../images/c4/garden-9984.jpg" style="max-width:100% ;" height="auto" alt="Breath of Fresh Air">
+
+
+        <p> </p>
+
+    </div>
+    <p></p>
+
+    <!--  -->
+
+    <!--</div>  -->
+    <p></p>
+    <!--  -->
+
+
+
+
+
+    <h3 id="sql_check_design">CHECK Constraint &#8212; Design Considerations </h3>
+
+    <b></b>
+    <span class="note-bold-red"></span>
+    <div class="note-95">
+
+        <p>A table can have <span class="note-bold-red">multiple</span> <b>CHECK Constraints</b>. </p>
+
+        <div class="note-95" style="font-size: larger;">
+            <p></p>
+            <div class="note-95-a15">
+                <span class="note-bold-red">Multiple CHECK Constraints</span> each with a
+                <b>Simple Condition</b> enforcing
+                a <b>Single Business Rule</b>,
+            </div>
+            <p></p>
+            <p>are <span class="note-bold-red">PREFERABLE</span> to</p>
+
+            <div class="note-95-a15">
+                a <b>Single CHECK Constraint</b> with
+                a <b>Complicated Condition</b> enforcing <b>Multiple Business Rules</b>.
+            </div>
+            <p></p>
+        </div>
+        <p></p>
+        <p>When a constraint is violated,
+            Oracle returns an error identifying the constraint. </p>
+        <p>Such an error more precisely identifies the violated business rule,
+            if the identified constraint enables a single business rule. </p>
+        <p> </p>
+    </div>
+    <p></p>
+    <!---  
+    <div class="note-97">
+
+        <p>Oracle does not verify that
+            <span class="note-bold-red">CONDITION</span> of
+            <b>CHECK Constraints</b> are "NOT Mutually Exclusive".
+        </p>
+        <p>Therefore, if you create
+            Multiple <b>CHECK Constraints</b> for a column,
+            design them carefully so that their purposes do NOT conflict. </p>
+        <p>Do NOT assume any particular order of
+            evaluation of the <span class="note-bold-red">CONDITIONS</span>. </p>
+    </div>
+    <p></p>
+
+-->
+
+
+    <div class="note-117">
+        <b></b>
+        <span class="note-bold-red"></span>
+        <p><b>CHECK Constraints</b> are used when <b>Integrity Rules</b>
+            need to be enforced based on
+            Logical Expressions &#8212; such as <span class="note-bold-red">Comparisons</span>. </p>
+        <p>It is <span class="note-bold-red">NOT ADVISABLE</span>
+            to use <b>CHECK Constraints</b>,
+            when any of the <span class="note-bold-red">Other Types</span> of
+            Integrity Constraints <span class="note-bold-red">CAN PROVIDE</span> the necessary checking. </p>
+    </div>
+    <p></p>
+
+
+
+    <h3 id="ctr_more">For More on Integrity Constraints</h3>
+    <div class="note-95">
+
+        <p> </p>
+
+
+        <p>
+            <span class="note-bold-navy">
+                You can refer to the Oracle Documentation if you need more detailed
+                information on Integrity Constraints.</span>
+        </p>
+        <p>You can find a list of these documents in the
+            <a href="#references"> References</a>.
+        </p>
+        <p>Please keep in mind that the names of the documents may change in time.</p>
+    </div>
+    <p></p>
+
+    <p></p>
+
+    <!--  -->
+
+
+    <p></p>
+
+
+
+
+
+    <p></p>
+
+    <p></p>
+
+
+    <p></p>
+
+
+
+
+
+
+
+
+
+    <h2 id="references">References</h2>
+
+
+
+    <div class="note-charcoal-a30">
+
+        <ul>
+
+            <li>Oracle&#174; Database, Database Concepts, 21c, F31733-04, August 2021</li>
+            <li>Oracle&#174; Database, 2 Day Developer's Guide, 21c, F32609-01, December 2020 </li>
+            <li>Oracle&#174; Database, SQL Language Reference, 21c F31301-07, March 2022</li>
+            <li>Oracle&#174; Database, Database Reference, 21c, F31274-15, August 2022</li>
+            <li>Oracle&#174; Database, Object-Relational Developer's Guide, 21c, F32263-01, December 2020</li>
+            <li>C.J. Date, An Introduction to Database Systems 7th Edition, Addison-Wesley ISBN 0-201-38590-2</li>
+            <li>Richard Barker, Case*Method, Entity Relationship Modelling, Addison-Wesley ISBN 0-201-41696-4</li>
+
+        </ul>
+    </div>
+
+    <div class="note-117">
+
+
+
+        <ul>
+            <li>ISBN 92-79-03653-X , How the European Union works: Booklet by EU Publications Office
+            </li>
+            <li>ISBN 978-92-824-2203-8, Information handbook of the Council of the European Union, DG Press, General
+                Secretariat of the Council</li>
+
+            <li>European Union
+                <p><a href="https://europa.eu/european-union/index_en" target="_blank">
+                        https://europa.eu/european-union/index_en</a> </p>
+
+            </li>
+
+            <li>European Council
+                <p><a href="https://www.consilium.europa.eu/en/" target="_blank">
+                        https://www.consilium.europa.eu/en/</a>
+                </p>
+            </li>
+            <li>European Parliament
+                <p> <a href="https://www.europarl.europa.eu/portal/en" target="_blank">
+                        https://www.europarl.europa.eu/portal/en</a> </p>
+
+            </li>
+            <li>The Official Directory of the European Union (Who is Who)
+                <p><a href="  https://op.europa.eu/en/web/who-is-who" target="_blank">
+                        https://op.europa.eu/en/web/who-is-who </a> </p>
+            </li>
+        </ul>
+    </div>
+    <p></p>
+    <img src="../images/c4/deu.png" style="max-width:100% ;" height="auto" alt="just me">
+    <p></p>
+</body>
+
+</html>
